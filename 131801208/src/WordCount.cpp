@@ -120,19 +120,22 @@ void output(ofstream &foutput,int a,int *cnt){
 		
 	}
 }
-int main()
+int main(int argc,char* argv[])
 {
 	
     int cnt[3] = {0};
 	ifstream fword,fchar;//两种功能两个变量 
 	ofstream foutput;
-	foutput.open("output.txt");
-	fchar.open("input.txt");
-	fword.open("input.txt");
-	fstream infile("input.txt",ios::in);
+	foutput.open(argv[2]);
+	
+	fchar.open(argv[1]);
+	fword.open(argv[1]);
 	countWord(fword);
 	count(fchar,cnt);
+	
+	fstream infile(argv[1],ios::in);	
 	int a=fcharCount(infile);
+	
 	output(foutput,a,cnt);		
 	cout<<"字符数为："<< a<<endl; 
 	cout<<"单词数为："<<word_count<<endl;
