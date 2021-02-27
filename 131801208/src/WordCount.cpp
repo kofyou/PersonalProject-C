@@ -6,6 +6,9 @@
 #include <algorithm>
  
 using namespace std;
+int word_count=0;
+multimap<int, string, greater<int> > mapB;
+map<string, int> mapA; //第一个存单词,第二个存单词出现的次数;
 
 
 bool isnum_str(char str)  //判断是否是字符或数字
@@ -22,7 +25,7 @@ bool is_lower_alpha(char str){
 	  return false;
 }
 
-void count(fstream &outfile, int *cnt )  //统计函数
+void count(ifstream &outfile, int *cnt )  //统计函数
 { char str[256];
   while(outfile.getline(str,256))
   { 
@@ -44,24 +47,26 @@ void count(fstream &outfile, int *cnt )  //统计函数
     
  return ;
 }
-
-int main()
-{
-	
-    int cnt[3] = {0};
-	ifstream input;
-	input.open("text.txt");
-	fstream f;
-	f.open("text.txt");
-	count(f,cnt);
+int fcharCount(fstream &infile){
+	int a=0;
+	infile >> skipws;
+	while(!infile.eof())
+	{
+		char ch;
+		infile.get( ch ); 
+		a++;
+	}
+	a-=1;
+	return a;
+}
+void countWord(ifstream &input){
 	string eachline;
-	map<string, int> mapA; //第一个存单词,第二个存单词出现的次数;
-	
+		
 	while (getline(input, eachline))
 	{
 		transform(eachline.begin(),eachline.end(),eachline.begin(),::tolower);
 		string::size_type start = 0;
-		string::size_type end = eachline.find_first_of(" ");
+		string::size_type end = eachline.find_first_of(".,?! ");
 		int flag=0; 
 		while (end != string::npos) //npos就是这一行到头啦；
 		{
@@ -79,7 +84,7 @@ int main()
 				}
 			}			
 			start = end + 1;
-			end = eachline.find_first_of(" ", start);			
+			end = eachline.find_first_of(".,?! ", start);			
 		}
 		string content = eachline.substr(start, end - start);
 			map<string, int>::iterator it = mapA.find(content);
@@ -95,17 +100,42 @@ int main()
 				}
 			}							
 	}
-	multimap<int, string, greater<int> > mapB;
- 	int word_count=0;
+ 	word_count=0;
 	for (map<string, int>::iterator it1 = mapA.begin(); it1 != mapA.end();++it1)
 	{
 		mapB.insert(pair<int, string>(it1->second, it1->first));//方便map自动根据出现次数排序 
-		word_count++;
+		word_count++;//顺手统计 
 	}
+}
+void output(ofstream &foutput,int a,int *cnt){
+	foutput<<"字符数为："<< a<<endl; 
+	foutput<<"单词数为："<<word_count<<endl;
+	foutput<<"行数为："<< cnt[2]<<endl;
+	int temp=0;
+	for (map<int, string>::iterator it2 = mapB.begin(); it2 != mapB.end()&&temp<10;++it2)
+	{
+//		if ((it2->first) > 1)
+			temp++;
+			foutput << it2->second << "单词出现的次数是" << it2->first << endl;
+		
+	}
+}
+int main()
+{
 	
-	cout<<"字符数为："<< cnt[0]<<endl;
-	cout<<"单词总数" <<cnt[1]<<endl; 
-	cout<<"单词种类数为："<<word_count<<endl;
+    int cnt[3] = {0};
+	ifstream fword,fchar;//两种功能两个变量 
+	ofstream foutput;
+	foutput.open("output.txt");
+	fchar.open("input.txt");
+	fword.open("input.txt");
+	fstream infile("input.txt",ios::in);
+	countWord(fword);
+	count(fchar,cnt);
+	int a=fcharCount(infile);
+	output(foutput,a,cnt);		
+	cout<<"字符数为："<< a<<endl; 
+	cout<<"单词数为："<<word_count<<endl;
 	cout<<"行数为："<< cnt[2]<<endl;
 
 	for (map<int, string>::iterator it2 = mapB.begin(); it2 != mapB.end();++it2)
@@ -115,6 +145,8 @@ int main()
 		
 	}
 	
- 
+ 	foutput.close();
+ 	fword.close();
+ 	fchar.close();
 }
 
