@@ -39,7 +39,8 @@ int wordCount(char* Path) {    //计算单词个数
     int charCount = 0;//记录字母数
     int num = 0;
     bool flag = false;
-    while ((word = infile.get()) != EOF) {
+    word = infile.get();
+    while (true) {
         if (flag)
         {
             if (!((word >= 'a' && word <= 'z') || (word >= 'A' && word <= 'Z') || (word >= '0' && word <= '9'))) { //确认一个单词后寻找下一个间隔符
@@ -57,8 +58,10 @@ int wordCount(char* Path) {    //计算单词个数
             }
             else {                    //没有4个英文字母开头则寻找下一个间隔符
                 flag = true;
+                continue;
             }
         }
+        if ((word = infile.get()) == EOF)break;
     }
     infile.close();
     return num;
