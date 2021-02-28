@@ -4,6 +4,7 @@ using namespace std;
 
 int charactersCount(char* Path);
 int wordCount(char* Path);
+int lineCount(char* Path);
 
 int main(int argv, char** argc) {
     char* input = argc[1];
@@ -14,6 +15,8 @@ int main(int argv, char** argc) {
     outfile << "characters:" << count << endl;
     count = wordCount(input);
     outfile << "words:" << count << endl;               //单词数
+    count = lineCount(input);
+    outfile << "lines:" << count << endl;
 
 
     outfile.close();
@@ -56,6 +59,19 @@ int wordCount(char* Path) {    //计算单词个数
                 flag = true;
             }
         }
+    }
+    infile.close();
+    return num;
+}
+
+
+int lineCount(char* Path) {    //计算行
+    ifstream infile(Path);
+    char line[255];
+    int num = 0;
+    while (infile) {
+        infile.getline(line, 255);
+        if (strlen(line) != 0)num++;
     }
     infile.close();
     return num;
