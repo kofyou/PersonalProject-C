@@ -73,6 +73,29 @@ void analysisFlie::init()
 
 analysisFlie analysisFlie::countLine(char *a, analysisFlie b)
 {
+    int i = 1;
+    ifstream file1;
+    file1.open(a);
+    if (!file1.is_open())
+    {
+        cout << "File open failed" << endl;
+    }
+    char c;
+    string d;
+    while (!file1.eof())
+    {
+        getline(file1, d);
+        if (file1.eof())
+            break;
+        if (d.empty())
+        {
+            i--;
+        }
+
+        i++;
+    }
+    b.lines = i;
+    file1.close();
     return b;
 }
 
@@ -94,7 +117,9 @@ int main(int argc, char *argv[])
         return 0;
     }
     file1 = file1.countChar(argv[1], file1);
+    file1 = file1.countLine(argv[1], file1);
     ofstream file2;
     file2.open("AAA.txt");
     file2 << "character:" << file1.getChars() << endl;
+    file2 << "line:" << file1.getLines() << endl;
 }
