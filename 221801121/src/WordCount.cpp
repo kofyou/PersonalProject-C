@@ -32,6 +32,7 @@ int analysisFlie::getChars()
 {
     return chars;
 }
+
 analysisFlie analysisFlie::countChar(char *a, analysisFlie b)
 {
     int i = 0;
@@ -59,10 +60,12 @@ int analysisFlie::getLines()
 {
     return lines;
 }
+
 int analysisFlie::getWords()
 {
     return words;
 }
+
 void analysisFlie::init()
 {
     chars = 0;
