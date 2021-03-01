@@ -1,5 +1,6 @@
 ﻿#include<fstream> 
-#include<WordCount.h>
+#include"WordCount.h"
+#include <assert.h>
 
 int main(int argv, char** argc) {
     char* input = argc[1];
