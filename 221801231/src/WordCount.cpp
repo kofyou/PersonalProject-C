@@ -88,3 +88,39 @@ int myfile::Countchar(fstream &in, string outputFileName)
    out.clear();
 	return totalCount;
 }
+/*************************************************
+ Description:通过对输入的文件流进行逐行的读取，统计文件的行数
+ Input: 输入参数分别为fstream类的引用in代表被打开文件的读取流，string类outputFilename代表写入输出文件的文件名// 输入参数说明，包括每个参数的作
+ // 用、取值说明及参数间关系。
+ Output: 输出值为输出至output文件的input文件的总共出现行数// 对输出参数的说明。
+ Return:无return值 // 函数返回值的说明
+ Others: // 其它说明
+*************************************************/
+int myfile::Countline(fstream &in, string outputFileName)
+{
+	fstream out;
+	out.open(outputFileName.c_str(),ios::app);
+	if (!in.is_open())
+	{
+		cout << "无法打开文件" << endl;
+		exit(0);
+	}
+	int totalCount = 0;
+	string line;
+	while (!in.eof())
+	{
+		getline(in,line);
+		for (int i = 0;i < line.length();i++)
+		{
+			if (!isspace(line[i]))//对文件进行逐行的读取，判断是否存在非空白字符。
+			{
+				totalCount++;
+				break;
+			}
+		}
+	}
+	out << "line:" << totalCount << endl;
+	out.close();
+	out.clear();
+	return totalCount;
+}
