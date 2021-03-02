@@ -104,7 +104,7 @@ void countWord(ifstream &input){
 	for (map<string, int>::iterator it1 = mapA.begin(); it1 != mapA.end();++it1)
 	{
 		mapB.insert(pair<int, string>(it1->second, it1->first));//方便map自动根据出现次数排序 
-		word_count++;//顺手统计 
+		word_count+=it1->second;//顺手统计 
 	}
 }
 void output(ofstream &foutput,int a,int *cnt){
@@ -120,20 +120,25 @@ void output(ofstream &foutput,int a,int *cnt){
 		
 	}
 }
-int main(int argc,char* argv[])
+int main()
+//int main(int argc,char* argv[])
 {
 	
     int cnt[3] = {0};
 	ifstream fword,fchar;//两种功能两个变量 
 	ofstream foutput;
-	foutput.open(argv[2]);
+	foutput.open("output.txt");
+	fchar.open("input.txt");
+	fword.open("input.txt");
 	
-	fchar.open(argv[1]);
-	fword.open(argv[1]);
+	//foutput.open(argv[2]);
+	//fchar.open(argv[1]);
+	//fword.open(argv[1]);
 	countWord(fword);
 	count(fchar,cnt);
 	
-	fstream infile(argv[1],ios::in);	
+	//fstream infile(argv[1],ios::in);
+	fstream infile("input.txt",ios::in)	;
 	int a=fcharCount(infile);
 	
 	output(foutput,a,cnt);		
