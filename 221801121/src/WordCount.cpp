@@ -10,22 +10,35 @@
 #include <malloc.h>
 using namespace std;
 
+struct Words
+{
+    string word;
+    int count;
+};
+
 class analysisFlie
 {
 public:
-    analysisFlie countChar(char *, analysisFlie);
-    analysisFlie countWord(char *, analysisFlie);
-    analysisFlie countLine(char *, analysisFlie);
+    analysisFlie countChar(char*, analysisFlie);
+    analysisFlie countWord(char*, analysisFlie);
+    analysisFlie countLine(char*, analysisFlie);
     int getChars();
     int getWords();
     int getLines();
-    char *text;
+    int getSums();
+    char* text;
     void init();
+    void wordSort();
+    void judgeWord( char *);
+
 
 private:
     int chars;
     int words;
     int lines;
+    int sums;
+    map<string, int> wordSet;
+    Words * pwords;
 };
 
 int analysisFlie::getChars()
@@ -66,6 +79,19 @@ int analysisFlie::getWords()
     return words;
 }
 
+void analysisFlie::judgeWord(char* a) {
+    string word;
+    word = a;
+    map<string, int>::iterator iter = wordSet.find(word);
+    if (iter == wordSet.end()) {
+        wordSet.insert(pair<string, int>(word, 1));
+        sums++;  
+    }
+    else {
+        iter->second++;
+    }
+}
+
 void analysisFlie::init()
 {
     chars = 0;
@@ -102,12 +128,66 @@ analysisFlie analysisFlie::countLine(char *a, analysisFlie b)
     return b;
 }
 
-analysisFlie analysisFlie::countWord(char *a, analysisFlie b)
+analysisFlie analysisFlie::countWord(char* a, analysisFlie b)
 {
+    int i = 0;
+    ifstream file1;
+    file1.open(a);
+    if (!file1.is_open())
+    {
+        cout << "File open failed" << endl;
+    }
+    char word1;
+    char* str = new char[100]; 
+    bool flag = false;
+    bool isWord = false;
+    int charCount = 0;
+    word1 = file1.get();
+    while (true) 
+    {
+        word1 = changeChar(word1);
+        if (flag)
+        {
+            if (!((word1 >= 'a' && word1 <= 'z') || (word1 >= '0' && word1 <= '9'))) {
+                if (isWord) {
+                    str[charCount] = NULL;
+                    judgeWord(str);
+                }
+                memset(str, NULL, sizeof(str));
+                flag = false;
+                isWord = false;
+                charCount = 0;
+            }
+            else if (isWord) {
+                str[charCount++] = word1;
+            }
+        }
+        else {
+            if (word1 >= 'a' && word1 <= 'z') {
+                str[charCount++] = word1;
+                if (charCount == 4) { 
+                    i++;
+                    flag = true;
+                    isWord = true;
+                }
+            }
+            else {
+                flag = true;
+                continue;
+            }
+        }
+        if ((word1 = file1.get()) == EOF)break;
+    }
+    if (isWord) {
+        str[charCount] = NULL;
+        judgeWord(str);
+    }
+    b.words = i;
+    file1.close();
     return b;
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     int i;
     int j;
@@ -121,8 +201,10 @@ int main(int argc, char *argv[])
     }
     file1 = file1.countChar(argv[1], file1);
     file1 = file1.countLine(argv[1], file1);
+    file1 = file1.countWord(argv[1], file1);
     ofstream file2;
     file2.open("AAA.txt");
     file2 << "character:" << file1.getChars() << endl;
     file2 << "line:" << file1.getLines() << endl;
+    file2 << "words:" << file1.getWords() << endl;
 }
