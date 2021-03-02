@@ -14,7 +14,7 @@
 #include<string>
 #include<stdlib.h>
 #include<cstring>
-#include<vector>
+#include <map>
 #include<algorithm>
 #define MAX_NUM 1024
 
@@ -22,18 +22,17 @@ using namespace std;
 class word
 {
 public:
-	word()
+	word()//默认构造函数 
 	{
 		this->occurCount = 0;
 		this->wordName = "";
 	}
-	word(string wordN)
+	word(string wordN)//发现新的word类时的构造函数 
 	{
 		this->wordName = wordN;
 		this->occurCount=1;
 	}
-
-
+	
 	int occurCount;
 	string wordName;
 };
@@ -53,14 +52,13 @@ public:
 	int Countchar(fstream& in,string outputFileName);
 	int Countword(fstream& in, string outputFileName);
 	int Countline(fstream& in, string outputFileName);
-	/*bool sortWordTimes(const word&a, const word &b);*/
-	void Countwordoccurtimes(fstream& in,string outputFileName);
+	void Sortmap();
 	
 private:
 	string fileName;
 	int characterNum;
 	int wordNum;
-	vector<word> wVector;
+	map<word, int> wMap;
 };
 /*************************************************
  Description:通过对输入的文件流进行逐字符的读取以计算字符数。
@@ -75,17 +73,17 @@ int myfile::Countchar(fstream &in, string outputFileName)
 	fstream out;
 	out.open(outputFileName.c_str(),ios::app);
 	int totalCount=0;
-	char temp;
-   in>>noskipws;//设置不跳过换行符和空白符
-   in>>temp;
-   while(!in.eof())
-   {
-   	totalCount++;
-   	in>>temp;
-   }
-   out<<"characters:"<<totalCount<<'\n';
-   out.close();
-   out.clear();
+	char tempCh;
+	in.unsetf(ios_base::skipws);//设置不跳过换行符和空白符
+    in>>tempCh;
+    while(!in.eof())
+    {
+    	totalCount++;
+   	    in>>tempCh;
+    }
+    out<<"characters:"<<totalCount<<'\n';
+    out.close();
+    out.clear();
 	return totalCount;
 }
 /*************************************************
@@ -99,7 +97,7 @@ int myfile::Countchar(fstream &in, string outputFileName)
 int myfile::Countline(fstream &in, string outputFileName)
 {
 	fstream out;
-	out.open(outputFileName.c_str(),ios::app);
+	out.open(outputFileName.c_str(),ios::app); 
 	if (!in.is_open())
 	{
 		cout << "无法打开文件" << endl;
@@ -137,7 +135,7 @@ int myfile::Countword(fstream &in, string outputFileName)
 	bool isWord = true;//判断字符串内容是否符合单词组成
 	fstream out;
 	out.open(outputFileName.c_str(),ios::app);
-	in.unsetf(ios_base::skipws);//设置不跳过换行符和空白符
+
 	if (!in.is_open())
 	{
 		cout << "无法打开文件" << endl;
@@ -146,11 +144,11 @@ int myfile::Countword(fstream &in, string outputFileName)
 	int totalCount = 0;
 	string wordString = "";
 	char temp;
-    in>>noskipws;
     if(in.eof())
     {
    	cout<<"文件到达末尾"<<endl;
     }
+    in.unsetf(ios_base::skipws);//设置不跳过换行符和空白符
     while(!in.eof())
     {
 
