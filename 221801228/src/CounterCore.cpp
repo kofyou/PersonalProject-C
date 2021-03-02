@@ -56,7 +56,10 @@ void Core::Counter::countWords(std::vector<std::string> &lines)
 
 void Core::Counter::countChars(std::vector<std::string> &lines)
 {
-    
+    for (int i = 0; i < lines.size(); i++)
+        for (int j = 0; j < lines[i].size(); j++)
+            if (isascii(lines[i][j]))
+                result.charCount++;
 }
 
 std::vector<std::string> Core::Counter::split(const std::string &source)
