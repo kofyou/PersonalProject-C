@@ -124,3 +124,130 @@ int myfile::Countline(fstream &in, string outputFileName)
 	out.clear();
 	return totalCount;
 }
+/*************************************************
+ Description:通过对输入的文件流进行逐字符的读取，将读取到的字符拼接为字符串，在遇到分割符后将先前拼接成的字符串进行检查，判断是否为有效的单词，若有效则加入vector集合中。无效则跳过。
+ Input: 输入参数分别为fstream类的引用in代表被打开文件的读取流，string类outputFilename代表写入输出文件的文件名// 输入参数说明，包括每个参数的作
+ // 用、取值说明及参数间关系。
+ Output: 输出值为输出至output文件的单词总计出现次数// 对输出参数的说明。
+ Return:无return值 // 函数返回值的说明
+ Others: // 其它说明
+*************************************************/
+int myfile::Countword(fstream &in, string outputFileName)
+{
+	bool isWord = true;//判断字符串内容是否符合单词组成
+	fstream out;
+	out.open(outputFileName.c_str(),ios::app);
+	in.unsetf(ios_base::skipws);//设置不跳过换行符和空白符
+	if (!in.is_open())
+	{
+		cout << "无法打开文件" << endl;
+		exit(0);
+	}
+	int totalCount = 0;
+	string wordString = "";
+	char temp;
+    in>>noskipws;
+    if(in.eof())
+    {
+   	cout<<"文件到达末尾"<<endl;
+    }
+    while(!in.eof())
+    {
+
+   	in>>temp;
+	if (temp <= 'Z'&&temp >= 'A')//如果字符为大写字母将其转换为小写字母
+	{
+		temp += 32;
+	}
+	if (temp <= 32 || temp>126||temp=='\n')//判断是否遇到分割符，是则执行以下条件
+	{
+		if (wordString.length() < 4)//如果单词长度小于4，则直接跳过并清除字符串内容
+		{
+			wordString = "";
+			continue;
+		}
+		for (int i = 0;i < 4;i++)
+		{
+			if (!isalpha(wordString[i]))//判断字符串前四位是否为字母，不为字母则直接结束循环
+			{
+				wordString = "";
+				isWord = false;
+				break;
+			}
+
+		}
+		if (!isWord)//如果不为单词则继续执行下一个while循环，不执行以下代码
+		{
+			isWord = true;
+			continue;
+		}
+		totalCount++;
+
+		//通过find_if函数外加自定义的findword函数判断单词是否在vector容器中出现过，若出现过则添加单词次数即可，未出现过则加入新的元素。
+		vector<word>::iterator it = find_if(this->wVector.begin(), this->wVector.end(), findword(wordString));
+		if (it != this->wVector.end())
+		{
+			it->occurCount++;
+		}
+		else
+		{
+			this->wVector.push_back(word(wordString));
+			
+		}
+		wordString = "";
+	}
+	else	wordString=wordString+temp;
+    }
+    if (!wordString.empty())//当文件读取结束后没有遇到分隔符却字符串中却仍有内容，要进行最后一次检查。
+    {
+	   if (wordString.length() < 4)
+	   {
+		   wordString = "";
+		  
+	   }
+	   for (int i = 0;i <= 4;i++)
+	   {
+		   if (!isalpha(wordString[i]))
+		   {
+			   wordString = "";
+			   isWord = false;
+			   break;
+		   }
+
+	   }
+	   if (isWord)
+	   {
+		   for (int j = 0;j < wordString.length();j++)
+		   {
+
+			   if (wordString[j] <= 'Z'&&wordString[j] >= 'A')
+			   {
+				   wordString[j] += 32;
+			   }
+		   }
+		   totalCount++;
+		   vector<word>::iterator it = find_if(this->wVector.begin(), this->wVector.end(), findword(wordString));
+		   if (it != this->wVector.end())
+		   {
+			   it->occurCount++;
+
+		   }
+		   else
+		   {
+			   this->wVector.push_back(word(wordString));
+
+		   }
+		   wordString = "";
+	   }
+	   else
+	   {
+		   isWord = true;
+	   }
+    }
+    in.close(); 
+    in.clear();
+    out << "word:" << totalCount << endl;//输出单词的数量
+    out.close();
+    out.clear();
+ 	return totalCount;
+}
