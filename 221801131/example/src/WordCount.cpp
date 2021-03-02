@@ -49,7 +49,7 @@ Words* WordCount::getwords() {
 }
 
 int WordCount::charactersCount(char* Path) {    //计算字符数量
-    ifstream infile(Path);
+    ifstream infile(Path, std::ios::binary);
     if (!infile) {
         cout << "文件打开失败！" << endl;
     }
@@ -68,7 +68,7 @@ int WordCount::charactersCount(char* Path) {    //计算字符数量
         infile >> code;
         if (infile.eof())
             break;//防止最后一个字符输出两次
-        num++;
+            num++;
     }
     infile.close();
     return num;
@@ -130,20 +130,27 @@ int WordCount::wordCount(char* Path) {    //计算单词个数
 }
 
 int WordCount::lineCount(char* Path) {    //计算行
-    ifstream infile(Path);
+    ifstream infile(Path, std::ios::binary);
     if (!infile) {
         cout << "文件打开失败！" << endl;
     }
-    string line;
-    int num = 0;
+    //string line;
+    char code;
+    bool flag = false;
+    int num = 0; 
+    infile >> noskipws;
     while (!infile.eof()) {
-        getline(infile, line);
-        int i = 0;
-        while (i < line.length() && isspace(line[i])){
-            i++;
+        while(infile >> code) {
+            if (code >= 0 && code <= 127) {
+                if (!isspace(code))
+                    flag = true;
+            }
+            if (code == '\r' || code == '\n')
+                break;
         }
-        if (i != line.length()){
+        if (flag){
             num++;
+            flag = false;
         }
     }
     infile.close();
