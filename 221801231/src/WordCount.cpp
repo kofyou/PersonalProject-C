@@ -62,3 +62,29 @@ private:
 	int wordNum;
 	vector<word> wVector;
 };
+/*************************************************
+ Description:通过对输入的文件流进行逐字符的读取以计算字符数。
+ Input: 输入参数分别为fstream类的引用in代表被打开文件的读取流，string类outputFilename代表写入输出文件的文件名// 输入参数说明，包括每个参数的作
+ // 用、取值说明及参数间关系。
+ Output: 输出值为输出至output文件的字符出现次数// 对输出参数的说明。
+ Return:无return值 // 函数返回值的说明
+ Others: // 其它说明
+*************************************************/
+int myfile::Countchar(fstream &in, string outputFileName)
+{
+	fstream out;
+	out.open(outputFileName.c_str(),ios::app);
+	int totalCount=0;
+	char temp;
+   in>>noskipws;//设置不跳过换行符和空白符
+   in>>temp;
+   while(!in.eof())
+   {
+   	totalCount++;
+   	in>>temp;
+   }
+   out<<"characters:"<<totalCount<<'\n';
+   out.close();
+   out.clear();
+	return totalCount;
+}
