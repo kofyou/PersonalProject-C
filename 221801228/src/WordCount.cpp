@@ -6,7 +6,7 @@
 
 
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
     using namespace std;
     if (argc != 3)
@@ -18,5 +18,9 @@ int main(int argc, char **argv)
     std::string inputFile(argv[1]);
     std::string outputFile(argv[2]);
 
+    auto result = Core::Counter::count(inputFile);
+    cout << "characters: " << result.charCount << endl;
+    cout << "words: " << result.wordCount << endl;
+    cout << "lines: " << result.lineCount << endl;
     return 0;
 }
