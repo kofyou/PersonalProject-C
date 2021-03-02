@@ -46,6 +46,7 @@ private:
     std::vector<std::string> splitLines(std::ifstream &is);
     void countWords(std::vector<std::string> &lines);
     void countChars(std::vector<std::string> &lines);
+    void countLines(std::vector<std::string> &lines);
 
     std::vector<std::string> split(const std::string &source);
     std::string toLower(std::string source);

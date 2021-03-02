@@ -92,3 +92,14 @@ std::string Core::Counter::toLower(std::string source)
             source[i] += 'a' - 'A';
     return source;
 }
+
+void Core::Counter::countLines(std::vector<std::string> &lines)
+{
+    for (int i = 0; i < lines.size(); i++)
+        for (int j = 0; j < lines[i].size(); j++)
+            if (!isspace(lines[i][j]))
+            {
+                result.lineCount++;
+                break;
+            }
+}
