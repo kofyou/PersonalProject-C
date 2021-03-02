@@ -4,6 +4,9 @@
 #include<map>
 #include<string>
 #include<fstream>
+#include<vector>
+#include<cctype>
+
 namespace Core
 {
 
@@ -23,20 +26,29 @@ class Counter
 public:
     static CountResult count(const std::string &file);
 
-    Counter(std::ifstream & is);
     Counter(const std::string &file);
 
-    void setFile(std::ifstream & is);
     void setFile(const std::string &file);
 
     CountResult count();
-    CountResult getResult() const;
-
-    ~Counter();
+    CountResult getResult();
 
 private:
-    std::ifstream *istream;
-    bool isMeOpen; //标志文件是否由Counter打开
+    std::string fileName;
+    CountResult result;
+    bool hasResult;
+
+    inline bool isDivision(char c)
+    {
+        return !std::isalnum(c);
+    }
+
+    std::vector<std::string> splitLines(std::ifstream &is);
+    void countWords(std::vector<std::string> &lines);
+    void countChars(std::vector<std::string> &lines);
+
+    std::vector<std::string> split(const std::string &source);
+    std::string toLower(std::string source);
 };
 
 }
