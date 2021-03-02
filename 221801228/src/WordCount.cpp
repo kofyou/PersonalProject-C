@@ -4,7 +4,7 @@
 #include <algorithm>
 #include "CounterCore.h"
 
-void writeResult(const Core::CountResult& result, const std::string &file)
+void writeResult(const Core::CountResult &result, const std::string &file)
 {
     std::ofstream os(file, std::ios_base::trunc);
     if (!os.is_open())
@@ -23,7 +23,7 @@ void writeResult(const Core::CountResult& result, const std::string &file)
     );
     for (int i = 0; i < 10 && i < words.size(); i++)
         os << words[i].first << ": " << words[i].second << std::endl;
-        
+
     os.close();
 }
 
