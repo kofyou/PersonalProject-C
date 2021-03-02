@@ -60,7 +60,7 @@ analysisFlie analysisFlie::countChar(char *a, analysisFlie b)
 {
     int i = 0;
     ifstream file1;
-    file1.open(a, ios::out | ios::binary);
+    file1.open(a, std::ios::out | std::ios::binary);
     if (!file1.is_open())
     {
         cout << "File open failed" << endl;
