@@ -15,7 +15,10 @@ public:
 	wordCount(string inFileName, string outFileName);
 	~wordCount();
 	void handleInPut();
-	void outPut();
+	void outPutAll();
+	void outPutCharacterCount();
+	void outPutWordCount();
+	void outPutFrequencyCount();
 
 	int handleCharacter(char c);//处理输入的每一个字符，用于 1.统计字符数量
 	void wordBreak();//当出现字母数字字符时进行单词的分割和判断
