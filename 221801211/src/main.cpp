@@ -1,7 +1,16 @@
-#include "БъЭЗ.h"
+#include "WordCount.h"
 
-int main(int argv, char** argc)
+int main(int argc, char** argv)
 {
-	char xxx[] = "xj rtyii 6646564t yrryyt";
-	cout << GetWords(xxx);
+	ifstream inFile;
+	inFile.open("F:\\test.txt");
+	char buffer[MAXWORDS] = {};
+	int i = 0;
+	char x;
+	while ((x=inFile.get())!=EOF)
+	{
+		buffer[i] = x;
+		i++;
+	}
+	cout << GetLines(buffer);
 }
