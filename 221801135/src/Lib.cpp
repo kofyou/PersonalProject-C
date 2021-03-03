@@ -28,10 +28,27 @@ void wordCount::handleInPut() {
 	wordBreak();
 }
 
-void wordCount::outPut()
+void wordCount::outPutAll()
+{
+	outPutCharacterCount();
+	outPutWordCount();
+	outPutFrequencyCount();
+	
+	
+}
+
+void wordCount::outPutCharacterCount()
 {
 	outfile << "characters: " << cnt << endl;
+}
+
+void wordCount::outPutWordCount()
+{
 	outfile << "words：" << wordCnt << endl;
+}
+
+void wordCount::outPutFrequencyCount()
+{
 	for (int j = 0; j < wordCnt && j < 10; ++j)
 	{
 		string key;
