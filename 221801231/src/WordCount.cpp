@@ -9,33 +9,17 @@
  <author> <time> <version > <desc>
  David 96/10/12 1.0 build this moudle
 ***********************************************************/
-#include<iostream>
-#include<fstream>
-#include<string>
-#include<stdlib.h>
-#include<cstring>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <stdlib.h>
+#include <cstring>
 #include <map>
-#include<algorithm>
+#include <vector>
+#include <algorithm>
+#include <direct.h>
 #define MAX_NUM 1024
-
 using namespace std;
-class word
-{
-public:
-	word()//默认构造函数 
-	{
-		this->occurCount = 0;
-		this->wordName = "";
-	}
-	word(string wordN)//发现新的word类时的构造函数 
-	{
-		this->wordName = wordN;
-		this->occurCount=1;
-	}
-	
-	int occurCount;
-	string wordName;
-};
 class myfile
 {
 public:
