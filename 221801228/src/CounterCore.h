@@ -9,7 +9,7 @@
 
 namespace Core
 {
-    enum FileType { UTF8, OTHER };
+    enum FileType { UTF8, OTHER, UTF8BOM };
 
     class CountResult
     {
@@ -25,7 +25,7 @@ namespace Core
     class Counter
     {
     public:
-        static CountResult count(const std::string& file);
+        static CountResult count(const std::string &file);
 
         Counter(const std::string& file);
 
@@ -43,7 +43,16 @@ namespace Core
         }
 
         char toLower(char c);
-        FileType checkFileType(const std::string& file);
+        FileType checkFileType(const std::string &file);
+
+        inline bool isWord(const std::string &str)
+        {
+            return str.size() > 3u &&
+                isalpha(str[0]) &&
+                isalpha(str[1]) &&
+                isalpha(str[2]) &&
+                isalpha(str[3]);
+        }
     };
 
 }

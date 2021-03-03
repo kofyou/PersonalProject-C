@@ -14,7 +14,8 @@ void Core::Counter::setFile(const std::string &file)
 
 Core::CountResult Core::Counter::count()
 {
-    if (checkFileType(fileName) != FileType::UTF8)
+    FileType encoding = checkFileType(fileName);
+    if (encoding != FileType::UTF8 && encoding != FileType::UTF8BOM)
         throw std::exception(("file " + fileName + " is not an UTF-8 encoding file\n").c_str());
 
     std::ifstream is(fileName, std::ios::basic_ios::binary);
@@ -26,8 +27,9 @@ Core::CountResult Core::Counter::count()
     bool ignore = false;
     bool isLine = false;
 
-    //跳过UTF-8文件前三个字符EF BB BF
-    is.seekg(3, std::ios::beg);
+    //跳过UTF-8 with bom文件前三个字符EF BB BF
+    if (encoding == FileType::UTF8BOM)
+        is.seekg(3, std::ios::beg);
 
     while (is.read(&c, sizeof(c)))
     {
@@ -61,14 +63,14 @@ Core::CountResult Core::Counter::count()
         if (isDivision(c) && readingWord)
         {
             readingWord = false;
-            if (word.size() > 3u)
+            if (isWord(word))
                 result.wordOccurs[word] += 1;
             word.clear();
         }
     }
     if (isLine)
         result.lineCount++;
-    if (readingWord && word.size() > 3u)
+    if (readingWord && isWord(word))
         result.wordOccurs[word] += 1;
 
     is.close();
@@ -93,6 +95,11 @@ Core::FileType Core::Counter::checkFileType(const std::string &file)
 
     unsigned char c;
     fin.read((char*)&c, sizeof(c));
+    if (c <= 127)
+    {
+        fin.close();
+        return FileType::UTF8;
+    }
     int flag = c << 8;
     fin.read((char*)&c, sizeof(c));
     flag |= c;
@@ -100,7 +107,7 @@ Core::FileType Core::Counter::checkFileType(const std::string &file)
     fin.close();
 
     if (flag == 0xefbb)
-        return FileType::UTF8;
+        return FileType::UTF8BOM;
     return FileType::OTHER;
 }
 
