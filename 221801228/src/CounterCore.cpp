@@ -21,16 +21,13 @@ Core::CountResult Core::Counter::count()
     result = CountResult();
 
     std::string word;
-    char pre = '\0';
     char c;
     bool readingWord = false;
     bool ignore = false;
     bool isLine = false;
 
     //跳过UTF-8文件前三个字符EF BB BF
-    is.read(&c, sizeof(c));
-    is.read(&c, sizeof(c));
-    is.read(&c, sizeof(c));
+    is.seekg(3, std::ios::beg);
 
     while (is.read(&c, sizeof(c)))
     {
@@ -45,34 +42,34 @@ Core::CountResult Core::Counter::count()
             if (isLine)
                 result.lineCount++;
 
-            if (readingWord)
-            {
-                readingWord = false;
-                result.wordOccurs[word] += 1;
-                word.clear();
-            }
             isLine = false;
         }
 
         if (!isDivision(c) && !ignore)
         {
-            if (!readingWord && !(isascii(c) && isalpha(c)))
+            if (!readingWord && !isalpha(c))
                 ignore = true;
             else
             {
                 readingWord = true;
-                word.push_back(c);
+                word.push_back(toLower(c));
             }
         }
+
+        if (isDivision(c))
+            ignore = false;
         if (isDivision(c) && readingWord)
         {
             readingWord = false;
-            result.wordOccurs[word] += 1;
+            if (word.size() > 3u)
+                result.wordOccurs[word] += 1;
             word.clear();
         }
     }
     if (isLine)
         result.lineCount++;
+    if (readingWord && word.size() > 3u)
+        result.wordOccurs[word] += 1;
 
     is.close();
     result.wordCount = result.wordOccurs.size();

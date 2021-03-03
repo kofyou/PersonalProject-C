@@ -1,10 +1,8 @@
-#include <fstream>
-#include <string>
 #include <iostream>
 #include <algorithm>
 #include "CounterCore.h"
 
-void writeResult(const Core::CountResult &result, const std::string &file)
+void writeResult(const Core::CountResult& result, const std::string &file)
 {
     std::ofstream os(file, std::ios_base::trunc);
     if (!os.is_open())
@@ -15,15 +13,15 @@ void writeResult(const Core::CountResult &result, const std::string &file)
 
     using WordPair = std::pair<std::string, int>;
     std::vector<WordPair> words(result.wordOccurs.begin(), result.wordOccurs.end());
-    std::stable_sort(words.begin(), words.end(), 
+    std::stable_sort(words.begin(), words.end(),
         [](const WordPair& a, const WordPair& b)
         {
             return a.second > b.second;
         }
     );
-    for (int i = 0; i < 10 && i < words.size(); i++)
-        os << words[i].first << ": " << words[i].second << std::endl;
 
+    for (size_t i = 0; i < 10 && i < words.size(); i++)
+        os << words[i].first << ": " << words[i].second << std::endl;
     os.close();
 }
 
@@ -34,7 +32,7 @@ int main(int argc, char** argv)
     if (argc != 3)
     {
         cout << "usage: " << argv[0] << " <inputfile> <outputfile>\n";
-        exit(-1);
+        exit(EXIT_FAILURE);
     }
 
     std::string inputFile(argv[1]);
@@ -48,6 +46,8 @@ int main(int argc, char** argv)
     catch (exception e)
     {
         cout << e.what();
+        exit(EXIT_FAILURE);
     }
+
     return 0;
 }
