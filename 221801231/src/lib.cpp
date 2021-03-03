@@ -181,7 +181,10 @@ int myfile::Countline(fstream &in, fstream &out)
 *************************************************/
 bool Sortwordtimes(const pair<string, int> &wordA, const pair<string, int> &wordB)
 {
-
+	if (wordA.second == wordB.second)
+	{
+		return wordA.first < wordB.first;
+	}
 	return wordA.second > wordB.second;
 
 }

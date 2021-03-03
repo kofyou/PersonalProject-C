@@ -32,7 +32,6 @@ int main(int argc, char *argv[])
 	string outputFileName = "";
 	inputFileName = argv[1];
 	outputFileName = argv[2];
-	cin >> inputFileName >> outputFileName;
 	myfile* mf = new myfile(inputFileName);
 
 	fstream in;
