@@ -43,4 +43,23 @@ int GetWords(char* str)
 	return num;
 }
 
-
+int GetLines(char* str)
+{
+	int n = strlen(str);
+	int num = 0;
+	if (str[n - 1] == '\n')
+	{
+		num--;
+	}
+	for (int i = 0; i < n; i++)
+	{
+		if (str[i] == '\n')
+		{
+			if (str[i + 1] != '\n')
+			{
+				num++;
+			}
+		}
+	}
+	return num+1;
+}
