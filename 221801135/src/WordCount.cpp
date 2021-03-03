@@ -1,8 +1,8 @@
 #include"Lib.h"
-int main() 
+int main(int argc, char* argv[])
 {
-	ifstream infile("in.txt");
-	ofstream outfile("out.txt", ios::app);
+	ifstream infile(argv[1]);
+	ofstream outfile(argv[2]);
 	char singleCharacter;
 	string singleWord="";
 	map<string, int> wordList;
