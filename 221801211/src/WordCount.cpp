@@ -1,9 +1,4 @@
-#include "±êÍ·.h"
-
-int GetCharacters(char *str)
-{
-	return strlen(str);
-}
+#include "WordCount.h"
 
 int GetWords(char* str)
 {
@@ -25,7 +20,7 @@ int GetWords(char* str)
 				return 1;
 			}
 		}
-		else if (str[i] == ' '||i == strlen(str)-1)
+		else if (str[i] == ' '||i == strlen(str)-1||str[i]=='\n')
 		{
 			if (j >= 4)
 			{
@@ -42,4 +37,6 @@ int GetWords(char* str)
 	}
 	return num;
 }
+
+
 
