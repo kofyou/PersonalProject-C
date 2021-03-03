@@ -1,24 +1,35 @@
 #include"Lib.h"
-void inPut(string fileName) {
-	infile.open(fileName);
+
+wordCount::wordCount(string inFileName, string outFileName)
+{
+	infile.open(inFileName);
+	outfile.open(outFileName);
 	if (!infile.is_open())
 	{
 		cout << "文件打开失败" << endl;
 	}
+	singleWord = "";
+	characterCnt = 0;
+	wordCnt = 0;
+	cnt = 0;
+}
+
+wordCount::~wordCount()
+{
+	infile.close();
+	outfile.close();
+}
+
+void wordCount::handleInPut() {
 	while (infile.get(singleCharacter))
 	{
 		handleCharacter(singleCharacter);
 	}
 	wordBreak();
-	if (infile.is_open())
-	{
-		infile.close();
-	}
 }
 
-void outPut(string fileName)
+void wordCount::outPut()
 {
-	outfile.open(fileName);
 	outfile << "characters: " << cnt << endl;
 	outfile << "words：" << wordCnt << endl;
 	for (int j = 0; j < wordCnt && j < 10; ++j)
@@ -38,18 +49,16 @@ void outPut(string fileName)
 		wordList.erase(temp);
 		outfile << key << ": " << value << endl;
 	}
-
-	outfile.close();
 }
 
-bool newWord(string key,int value)
+int wordCount::newWord(string key,int value)
 {
 	wordList.insert(pair<string, int>(key, value));
 	wordCnt++;
-	return true;
+	return wordCnt;
 }
 
-bool isRepeatWord()
+bool wordCount::isRepeatWord()
 {
 	map<string, int>::iterator iter = wordList.find(singleWord);
 	if (iter != wordList.end())
@@ -60,7 +69,7 @@ bool isRepeatWord()
 	return false;
 }
 
-void wordBreak()
+void wordCount::wordBreak()
 {
 	if (characterCnt >= MIN_WORD_SIZE && !isRepeatWord())
 	{
@@ -70,7 +79,7 @@ void wordBreak()
 	characterCnt = 0;
 }
 
-void handleCharacter(char c) 
+int wordCount::handleCharacter(char c)
 {
 	if (isalnum(singleCharacter))
 	{
@@ -97,4 +106,5 @@ void handleCharacter(char c)
 		wordBreak();
 	}
 	cnt++;
+	return cnt;
 }
