@@ -24,9 +24,14 @@
 using namespace std;
 int main(int argc, char *argv[])
 {
-
+	if (argc != 3)
+	{
+		cout << "²ÎÊýÊäÈë´íÎó";
+	}
 	string inputFileName = "";
 	string outputFileName = "";
+	inputFileName = argv[1];
+	outputFileName = argv[2];
 	cin >> inputFileName >> outputFileName;
 	myfile* mf = new myfile(inputFileName);
 

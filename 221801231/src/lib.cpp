@@ -54,7 +54,7 @@ int myfile::Countword(fstream &in, fstream &out)
 		{
 			temp += 32;
 		}
-		if (temp <= 32 || temp > 126 || temp == '\n')//判断是否遇到分割符，是则执行以下条件
+		if (!(isalpha(temp)||isdigit(temp)))//判断是否遇到分割符，是则执行以下条件
 		{
 			if (wordString.length() < 4)//如果单词长度小于4，则直接跳过并清除字符串内容
 			{
