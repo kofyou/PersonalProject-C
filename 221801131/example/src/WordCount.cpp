@@ -49,26 +49,19 @@ Words* WordCount::getwords() {
 }
 
 int WordCount::charactersCount(char* Path) {    //计算字符数量
-    ifstream infile(Path, std::ios::binary);
+    ifstream infile(Path, std::ios::binary);    //二进制读解决读不到'\r'的问题
     if (!infile) {
         cout << "文件打开失败！" << endl;
     }
     char code;
     int num = 0;
-    /*while ((code = infile.get()) != EOF) {   //这两个有不知道的问题
-        if (code >= 0 && code <= 127)num++;
-    }*/
-    /*string str;
-    while (getline(infile, str)) //以行为单位读入文件
-        num += str.size(); //累计字符数
-     */
     infile >> noskipws;//强制读入空格和换行符
     while (!infile.eof())
     {
         infile >> code;
         if (infile.eof())
             break;//防止最后一个字符输出两次
-            num++;
+        num++;
     }
     infile.close();
     return num;
@@ -91,7 +84,6 @@ int WordCount::wordCount(char* Path) {    //计算单词个数
         if (flag)
         {
             if (!((word >= 'a' && word <= 'z') || (word >= '0' && word <= '9'))) { //确认一个单词后寻找下一个间隔符
-                //cout << str << endl;
                 if (isWords) {
                     str[charCount] = NULL;
                     safeWord(str);
@@ -134,7 +126,6 @@ int WordCount::lineCount(char* Path) {    //计算行
     if (!infile) {
         cout << "文件打开失败！" << endl;
     }
-    //string line;
     char code;
     bool flag = false;
     int num = 0; 
@@ -170,34 +161,11 @@ void WordCount::safeWord(char* str) {
     }
 }
 
-void WordCount::wordsort() {
+void WordCount::wordsort() {//词频排序
 	Words temp;
     map<string, int>::iterator iter;
-    iter = words.begin();
-    int count = 0;
-    for (; iter != words.end(); iter++, count++) {
-        wwords[count].word = iter->first;
-        wwords[count].count = iter->second;
-    }
-    /*for (int i = 0; i < count; i++) {                              //冒泡排序
-        for (int j = 0; j < count - i - 1; j++) {
-            if (wwords[j].count < wwords[j + 1].count) {
-                temp = wwords[j];
-                wwords[j] = wwords[j + 1];
-                wwords[j + 1] = temp;
-            }
-            else if (wwords[j].count == wwords[j + 1].count) {
-                if (!wwords[j].word.compare(wwords[j + 1].word)) { //频率相同的单词，优先输出字典序靠前的单词。
-                    temp = wwords[j];
-                    wwords[j] = wwords[j + 1];
-                    wwords[j + 1] = temp;
-                }
-            }
-        }
-    }*/
     vector<PAIR> vwords(words.begin(), words.end());
     sort(vwords.begin(), vwords.end(), CmpByValue());
-    //sort(vwords.begin(), vwords.end(), cmp_by_value);
     for (int i = 0; i != vwords.size(); ++i) {
         wwords[i].word = vwords[i].first;
         wwords[i].count = vwords[i].second;
