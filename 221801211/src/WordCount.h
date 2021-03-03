@@ -10,4 +10,4 @@ using namespace std;
 int GetCharacters(char* str);
 int GetWords(char* str);
 int GetLines(char* str);
-int GetLines(char* str1, char* str2);
+void GetNumbers(char* str);
