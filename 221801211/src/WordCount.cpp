@@ -1,5 +1,10 @@
 #include "WordCount.h"
 
+int GetCharacters(char *str)
+{
+	return strlen(str);
+}
+
 int GetWords(char* str)
 {
 	char temp[MAXWORD][MAXWORD];
@@ -37,6 +42,5 @@ int GetWords(char* str)
 	}
 	return num;
 }
-
 
 
