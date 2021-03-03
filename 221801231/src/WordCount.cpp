@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <direct.h>
 #define MAX_NUM 1024
+
 using namespace std;
 class myfile
 {
@@ -33,93 +34,63 @@ public:
 		this->fileName = s;
 		this->characterNum = this->wordNum = 0;
 	}
-	int Countchar(fstream& in,string outputFileName);
-	int Countword(fstream& in, string outputFileName);
-	int Countline(fstream& in, string outputFileName);
-	void Sortmap();
-	
-private:
+	int Countchar(fstream& in, fstream &out);
+	int Countword(fstream& in, fstream &out);
+	int Countline(fstream& in, fstream &out);
+	/*bool sortWordTimes(const word&a, const word &b);*/
+	void Sortmap(fstream &out);
 	string fileName;
 	int characterNum;
 	int wordNum;
-	map<word, int> wMap;
+	map<string, int> wMap;
 };
 /*************************************************
- Description:通过对输入的文件流进行逐字符的读取以计算字符数。
- Input: 输入参数分别为fstream类的引用in代表被打开文件的读取流，string类outputFilename代表写入输出文件的文件名// 输入参数说明，包括每个参数的作
- // 用、取值说明及参数间关系。
- Output: 输出值为输出至output文件的字符出现次数// 对输出参数的说明。
- Return:无return值 // 函数返回值的说明
+ Description:作为vector容器中自定义的比较函数比较vector容器中的pair<string,int>元素，首先根据单词出现次数进行比较，若相等map再根据键值字典序排序。
+ Input: 输入参数为两个用以比较的pair<string,int>类常量，关系为都为容器中的元素以进行比较。
+ Output: 无输出值
+ Return:判断两个pair<string,int>类元素之间大小的bool值
  Others: // 其它说明
 *************************************************/
-int myfile::Countchar(fstream &in, string outputFileName)
+bool Sortwordtimes(const pair<string,int> &wordA, const pair<string,int> &wordB)
 {
-	fstream out;
-	out.open(outputFileName.c_str(),ios::app);
+	
+	return wordA.second > wordB.second;
+
+}
+/*************************************************
+ Description:通过对输入的文件流进行逐字符的读取以计算字符数。
+ Input: 输入参数分别为fstream类的引用in代表被打开文件的读取流，out代表写入输出文件的输出流.
+ Output: 输出值为输出至output文件的字符出现次数// 对输出参数的说明。
+ Return:返回字符数量的int值.
+ Others: 
+*************************************************/
+int myfile::Countchar(fstream &in, fstream &out)
+{
+
 	int totalCount=0;
-	char tempCh;
+	char temp;
 	in.unsetf(ios_base::skipws);//设置不跳过换行符和空白符
-    in>>tempCh;
+    in>>temp;
     while(!in.eof())
     {
     	totalCount++;
-   	    in>>tempCh;
+   	    in>>temp;
     }
     out<<"characters:"<<totalCount<<'\n';
-    out.close();
-    out.clear();
 	return totalCount;
 }
 /*************************************************
- Description:通过对输入的文件流进行逐行的读取，统计文件的行数
- Input: 输入参数分别为fstream类的引用in代表被打开文件的读取流，string类outputFilename代表写入输出文件的文件名// 输入参数说明，包括每个参数的作
- // 用、取值说明及参数间关系。
- Output: 输出值为输出至output文件的input文件的总共出现行数// 对输出参数的说明。
- Return:无return值 // 函数返回值的说明
- Others: // 其它说明
-*************************************************/
-int myfile::Countline(fstream &in, string outputFileName)
-{
-	fstream out;
-	out.open(outputFileName.c_str(),ios::app); 
-	if (!in.is_open())
-	{
-		cout << "无法打开文件" << endl;
-		exit(0);
-	}
-	int totalCount = 0;
-	string line;
-	while (!in.eof())
-	{
-		getline(in,line);
-		for (int i = 0;i < line.length();i++)
-		{
-			if (!isspace(line[i]))//对文件进行逐行的读取，判断是否存在非空白字符。
-			{
-				totalCount++;
-				break;
-			}
-		}
-	}
-	out << "line:" << totalCount << endl;
-	out.close();
-	out.clear();
-	return totalCount;
-}
-/*************************************************
- Description:通过对输入的文件流进行逐字符的读取，将读取到的字符拼接为字符串，在遇到分割符后将先前拼接成的字符串进行检查，判断是否为有效的单词，若有效则加入vector集合中。无效则跳过。
- Input: 输入参数分别为fstream类的引用in代表被打开文件的读取流，string类outputFilename代表写入输出文件的文件名// 输入参数说明，包括每个参数的作
+ Description:通过对输入的文件流进行逐字符的读取，将读取到的字符拼接为字符串，在遇到分割符后将先前拼接成的字符串进行检查，判断是否为有效的单词，若有效则加入map集合中。无效则跳过。
+ Input: 输入参数分别为fstream类的引用in代表被打开文件的读取流，out代表写入输出文件的输出流// 输入参数说明，包括每个参数的作
  // 用、取值说明及参数间关系。
  Output: 输出值为输出至output文件的单词总计出现次数// 对输出参数的说明。
- Return:无return值 // 函数返回值的说明
+ Return:返回单词数量的int值. // 函数返回值的说明
  Others: // 其它说明
 *************************************************/
-int myfile::Countword(fstream &in, string outputFileName)
+int myfile::Countword(fstream &in, fstream &out)
 {
 	bool isWord = true;//判断字符串内容是否符合单词组成
-	fstream out;
-	out.open(outputFileName.c_str(),ios::app);
-
+	in.unsetf(ios_base::skipws);//设置不跳过换行符和空白符
 	if (!in.is_open())
 	{
 		cout << "无法打开文件" << endl;
@@ -128,11 +99,11 @@ int myfile::Countword(fstream &in, string outputFileName)
 	int totalCount = 0;
 	string wordString = "";
 	char temp;
+    in>>noskipws;
     if(in.eof())
     {
    	cout<<"文件到达末尾"<<endl;
     }
-    in.unsetf(ios_base::skipws);//设置不跳过换行符和空白符
     while(!in.eof())
     {
 
@@ -165,16 +136,15 @@ int myfile::Countword(fstream &in, string outputFileName)
 		}
 		totalCount++;
 
-		//通过find_if函数外加自定义的findword函数判断单词是否在vector容器中出现过，若出现过则添加单词次数即可，未出现过则加入新的元素。
-		vector<word>::iterator it = find_if(this->wVector.begin(), this->wVector.end(), findword(wordString));
-		if (it != this->wVector.end())
+		//通过find函数判断单词是否在map容器中出现过，若出现过则增加迭代器返回的指针的值既单词次数即可，未出现过则加入新的元素。
+		map<string, int>::iterator it = this->wMap.find(wordString);
+		if (it != this->wMap.end())
 		{
-			it->occurCount++;
+			it->second++;
 		}
 		else
 		{
-			this->wVector.push_back(word(wordString));
-			
+			this->wMap.insert(pair<string, int>(wordString,1 ));
 		}
 		wordString = "";
 	}
@@ -208,16 +178,14 @@ int myfile::Countword(fstream &in, string outputFileName)
 			   }
 		   }
 		   totalCount++;
-		   vector<word>::iterator it = find_if(this->wVector.begin(), this->wVector.end(), findword(wordString));
-		   if (it != this->wVector.end())
+		   map<string, int>::iterator it = this->wMap.find(wordString);
+		   if (it != this->wMap.end())
 		   {
-			   it->occurCount++;
-
+			   it->second++;
 		   }
 		   else
 		   {
-			   this->wVector.push_back(word(wordString));
-
+			   this->wMap.insert(pair<string, int>(wordString, 1));
 		   }
 		   wordString = "";
 	   }
@@ -226,10 +194,39 @@ int myfile::Countword(fstream &in, string outputFileName)
 		   isWord = true;
 	   }
     }
-    in.close(); 
-    in.clear();
+ 
     out << "word:" << totalCount << endl;//输出单词的数量
-    out.close();
-    out.clear();
  	return totalCount;
+}
+/*************************************************
+ Description:通过对输入的文件流进行逐行的读取，统计文件的行数
+ Input: 输入参数分别为fstream类的引用in代表被打开文件的读取流，out代表写入输出文件的输出流// 输入参数说明，包括每个参数的作
+ // 用、取值说明及参数间关系。
+ Output: 输出值为输出至output文件的input文件的总共出现行数// 对输出参数的说明。
+ Return:返回行数数量的int值 // 函数返回值的说明
+ Others: // 其它说明
+*************************************************/
+int myfile::Countline(fstream &in, fstream &out)
+{
+	if (!in.is_open())
+	{
+		cout << "无法打开文件" << endl;
+		exit(0);
+	}
+	int totalCount = 0;
+	string line;
+	while (!in.eof())
+	{
+		getline(in,line);
+		for (int i = 0;i < line.length();i++)
+		{
+			if (!isspace(line[i]))//对文件进行逐行的读取，判断是否存在非空白字符。
+			{
+				totalCount++;
+				break;
+			}
+		}
+	}
+	out << "line:" << totalCount << endl;
+	return totalCount;
 }
