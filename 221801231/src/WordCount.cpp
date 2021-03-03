@@ -230,3 +230,29 @@ int myfile::Countline(fstream &in, fstream &out)
 	out << "line:" << totalCount << endl;
 	return totalCount;
 }
+/*************************************************
+ Description:将map容器的内容拷贝到vector,在经过线性的vector排序，通过vector容器的迭代器遍历将计算后所得单词出现的次数前十高的单词名与出现次数写入输出文件。
+ Input: 输入参数分别为fstream类的引用out代表需要输出文件的流.
+ Output: 输出值为输出至output文件的单词名与单词出现次数.
+ Return:无return值 
+ Others: 
+*************************************************/
+void myfile::Sortmap(fstream &out)
+{
+	vector< pair<string, int> > vec(this->wMap.begin(), this->wMap.end());
+	sort(vec.begin(), vec.end(), Sortwordtimes);
+	if (vec.size() < 10)
+	{
+		for (int i = 0;i < vec.size();i++)
+		{
+			out << vec[i].first <<":"<< vec[i].second << endl;
+		}
+	}
+	else
+	{
+		for (int i = 0;i < 10;i++)
+		{
+			out << vec[i].first <<":"<< vec[i].second << endl;
+		}
+	}
+}
