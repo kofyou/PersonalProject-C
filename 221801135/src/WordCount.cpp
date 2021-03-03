@@ -2,7 +2,8 @@
 
 int main(int argc, char* argv[])
 {
-	inPut(argv[1]);
-	outPut(argv[2]);
+	wordCount wordcount(argv[1], argv[2]);
+	wordcount.handleInPut();
+	wordcount.outPut();
 	return 0;
 }
