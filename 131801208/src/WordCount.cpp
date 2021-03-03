@@ -1,9 +1,10 @@
-#include <iostream>
 #include <string>
 #include <fstream>
 #include <string.h>
 #include <map>
 #include <algorithm>
+#include <iostream>
+#include<ctime> 
  
 using namespace std;
 int word_count=0;//用于统计单词书 
@@ -28,26 +29,32 @@ bool is_lower_alpha(char str){
 void count(ifstream &outfile, int *cnt )  //统计函数
 { 
 	char str[256];
+	//int wrong=0;
 	while(outfile.getline(str,256))
 	{ 
+		/*wrong++;
+		if(wrong>256){
+			cout<<"wrong line num";
+			break;
+		}*/
     	int tmp = 0;
-    
     	for(int i = 0; i < strlen(str); i++)
 		{
-	  		if(str[i] == ' ' || str[i] == '.' || str[i] == ',' || str[i] == '?' || str[i] == '!')
-		  		cnt[1]++;	 //统计单词数
+	  		if(str[i] == ' ' || str[i] == '.' || str[i] == ',' || str[i] == '?' || str[i] == '!'){
+	  				cnt[1]++;	 //统计单词数	
+			  }
 	  
 	  		if(isnum_str(str[i]))
 	  		{ 
 				cnt[0]++;
 			    tmp++;     //统计字符数，tmp局部变量用来区分是不是一个空行。
 			}    
-	}
+		}
 	
-	if(tmp != 0){
-		cnt[2]++;	//统计行数
-	}                
-	tmp = 0;
+		if(tmp != 0){
+			cnt[2]++;	//统计行数
+		}                
+		tmp = 0;
   }    
 	return ;
 }
@@ -61,7 +68,7 @@ int fcharCount(fstream &infile){	//统计字符数
 		infile.get( ch ); 
 		a++;
 	}
-	a-=1;
+	a-=1;//因为会多读入一个 \0结尾 不在本次要求当中 
 	return a;
 }
 
@@ -115,6 +122,10 @@ void countWord(ifstream &input){
 }
 
 void output(ofstream &foutput,int a,int *cnt){
+	if((word_count>0||a>0)&&cnt[2]==0){
+		foutput<<"单行内弱太多，抛出异常";
+		return; 
+	}
 	foutput<<"字符数为："<< a<<endl; 
 	foutput<<"单词数为："<<word_count<<endl;
 	foutput<<"行数为："<< cnt[2]<<endl;
@@ -128,31 +139,66 @@ void output(ofstream &foutput,int a,int *cnt){
 	}
 }
 
+void test(ofstream &t){//测试函数 
+	for(int a=0;a<10000000;a++){
+    	t<<"ddaa ";
+    	if(a%50==0&&a!=0){//每行字符数 
+    		t<<"\n";
+		}
+	}
+}
+
 int main()
 //int main(int argc,char* argv[])
 {
 	
     int cnt[3] = {0};
+    
+    ofstream t;
+    t.open("input.txt");
+    test(t);	
+	t.close();
+    clock_t start1,end1,start2,end2,start3,end3,start,end;
+    
+    start=clock();
 	ifstream fword,fchar;//两种功能两个变量 
 	ofstream foutput;
-	foutput.open("output.txt");
-	fchar.open("input.txt");
-	fword.open("input.txt");
 	
+	foutput.open("output.txt");
+	
+	start1=clock();
+	fchar.open("input.txt");
+	count(fchar,cnt);
+	fchar.close();
+	end1=clock();
+	
+	start2=clock();
+	fword.open("input.txt");
+	countWord(fword);
+	fword.close();
+	end2=clock();
 	//foutput.open(argv[2]);
 	//fchar.open(argv[1]);
 	//fword.open(argv[1]);
-	countWord(fword);
-	count(fchar,cnt);
 	
 	//fstream infile(argv[1],ios::in);
-	fstream infile("input.txt",ios::in)	;
+	start3=clock();
+	fstream infile("input.txt",ios::in)	;	
 	int fchar_count=fcharCount(infile);
+	end3=clock();
 	
-	output(foutput,fchar_count,cnt);		
+	output(foutput,fchar_count,cnt);
+	end=clock();
+	cout<<"总耗时"<<(double)((end-start)/1000)<<"s"<<endl;
+	cout<<"统计字符耗时"<<(double)((end1-start1)/1000)<<"s"<<endl;
+	cout<<"统计单词时"<<(double)((end2-start2)/1000)<<"s"<<endl;
+	cout<<"统计行数耗时"<<(double)((end3-start3)/1000)<<"s"<<endl;
+	
+			
 	cout<<"字符数为："<< fchar_count<<endl; 
 	cout<<"单词数为："<<word_count<<endl;
 	cout<<"行数为："<< cnt[2]<<endl;
+	
 
 	for (map<int, string>::iterator it2 = mapB.begin(); it2 != mapB.end();++it2)
 	{
@@ -163,6 +209,11 @@ int main()
 	
  	foutput.close();
  	fword.close();
- 	fchar.close();
+ 	
+ 	
+ 	
+	int a;
+	cin >> a;
+ 	 
 }
 
