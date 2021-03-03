@@ -148,48 +148,49 @@ void test(ofstream &t){//测试函数
 	}
 }
 
-int main()
-//int main(int argc,char* argv[])
+//int main()
+int main(int argc,char* argv[])
 {
 	
     int cnt[3] = {0};
     
-    ofstream t;
+    /*ofstream t;
     t.open("input.txt");
     test(t);	
 	t.close();
-    clock_t start1,end1,start2,end2,start3,end3,start,end;
+    clock_t start1,end1,start2,end2,start3,end3,start,end;*/
     
-    start=clock();
+    //start=clock();
 	ifstream fword,fchar;//两种功能两个变量 
 	ofstream foutput;
 	
-	foutput.open("output.txt");
+	foutput.open(argv[2]);
+	fchar.open(argv[1]);
+	fword.open(argv[1]);
+	//foutput.open("output.txt");
 	
-	start1=clock();
-	fchar.open("input.txt");
+	//start1=clock();
+	//fchar.open("input.txt");
 	count(fchar,cnt);
 	fchar.close();
-	end1=clock();
+	//end1=clock();
 	
-	start2=clock();
-	fword.open("input.txt");
+	//start2=clock();
+	//fword.open("input.txt");
 	countWord(fword);
 	fword.close();
-	end2=clock();
-	//foutput.open(argv[2]);
-	//fchar.open(argv[1]);
-	//fword.open(argv[1]);
+	//end2=clock();
 	
-	//fstream infile(argv[1],ios::in);
-	start3=clock();
-	fstream infile("input.txt",ios::in)	;	
+	
+	fstream infile(argv[1],ios::in);
+	//start3=clock();
+	//fstream infile("input.txt",ios::in)	;	
 	int fchar_count=fcharCount(infile);
-	end3=clock();
+	//end3=clock();
 	
 	output(foutput,fchar_count,cnt);
-	end=clock();
-	cout<<"总耗时"<<(double)((end-start)/1000)<<"s"<<endl;
+	//end=clock();
+	/*cout<<"总耗时"<<(double)((end-start)/1000)<<"s"<<endl;
 	cout<<"统计字符耗时"<<(double)((end1-start1)/1000)<<"s"<<endl;
 	cout<<"统计单词时"<<(double)((end2-start2)/1000)<<"s"<<endl;
 	cout<<"统计行数耗时"<<(double)((end3-start3)/1000)<<"s"<<endl;
@@ -205,15 +206,9 @@ int main()
 //		if ((it2->first) > 1)
 			cout << it2->second << "单词出现的次数是" << it2->first << endl;
 		
-	}
-	
+	}*/
  	foutput.close();
- 	fword.close();
- 	
- 	
- 	
-	int a;
-	cin >> a;
+
  	 
 }
 
