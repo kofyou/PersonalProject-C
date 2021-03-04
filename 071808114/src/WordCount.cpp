@@ -2,9 +2,6 @@
 
 using namespace std;
 
-extern int characters;
-extern int lines;
-extern int words;
 
 int main(int argc, char* argv[])
 {
@@ -14,11 +11,11 @@ int main(int argc, char* argv[])
 		printf("请输入文件路径\n");
 		return -1;
 	}
-	/*if (argc > 3)
+	if (argc > 3)
 	{
 		printf("输入文件过多\n");
 		return -1;
-	}*/
+	}
 	int len = strlen(argv[1]);
 	if (!(*(argv[1] + len - 1) == 't' &&
 		*(argv[1] + len - 2) == 'x' &&
@@ -37,17 +34,17 @@ int main(int argc, char* argv[])
 	}
 	f.close();
 
-	int charsss = CountChar(argv[1]);
-	int linesss = CountLine(argv[1]);
-	int wordsss = CountWord(argv[1]);
+	int charsss = CountChar(argv[1],argv[2]);
+	int linesss = CountLine(argv[1], argv[2]);
+	int wordsss = CountWord(argv[1], argv[2]);
 
-	printf("characters: %d\n", charsss);
-	printf("words: %d\n", wordsss);
-	printf("lines: %d\n", linesss);
+	cout << "characters" << charsss << endl;
+	cout << "words" << wordsss << endl;
+	cout << "lines:" << linesss << endl;
+
 
 	vector<pair<string, int>> v;
-	CountAndSort(argv[1], v);
-	int num = Display(v);
+	int num = CountMaxWord(argv[1],argv[2],v);
 	v.clear();
 
 
