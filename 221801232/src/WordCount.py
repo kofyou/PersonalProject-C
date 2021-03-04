@@ -54,17 +54,19 @@ def main(inputfile, outputfile):
     count_num = sort_words(text)
     with open(outputfile, 'w', newline="\n") as wf:
         wf.write('characters:'+str(chars_num)+'\nwords:'+str(words_num)+'\nlines:'+str(lines_num)+'\n')
-        wf.write(count_num[0][0]+':'+str(count_num[0][1])+'\n'+count_num[1][0]+':'+str(count_num[1][1])+'\n'
-        + count_num[2][0]+':'+str(count_num[2][1])+'\n'+count_num[3][0]+':'+str(count_num[3][1])+'\n'
-        + count_num[4][0]+':'+str(count_num[4][1])+'\n'+count_num[5][0]+':'+str(count_num[5][1])+'\n'
-        + count_num[6][0]+':'+str(count_num[6][1])+'\n'+count_num[7][0]+':'+str(count_num[7][1])+'\n'
-        + count_num[8][0]+':'+str(count_num[8][1])+'\n'+count_num[9][0]+':'+str(count_num[9][1]))
+        if len(count_num)>=10:
+            for i in range(10):
+                wf.write(count_num[i][0]+':'+str(count_num[i][1])+'\n')
+        else:
+            for i in range(len(count_num)):
+                wf.write(count_num[i][0]+':'+str(count_num[i][1])+'\n')
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--input', type=str, default='input.txt', help='input_file_path')
-    parser.add_argument('--output', type=str, default='output.txt', help='output_file_path')
+    parser.add_argument('input', type=str, default='input.txt', help='input_file_path')
+    parser.add_argument('output', type=str, default='output.txt', help='output_file_path')
     args = parser.parse_args()
     main(args.input, args.output)
+
 
