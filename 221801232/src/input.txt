@@ -1,0 +1,96 @@
+
+import java.io.*;
+import java.util.Map;
+
+public class WordCount
+{
+    
+    
+    
+    
+    public static void main(String[] args) throws IOException {
+
+        
+        /*
+
+         */
+//        if(args.length != 2)
+//        {
+//            System.out.print
+//            return;  
+//        }
+//
+//        String inputFileName = args[0]; 
+//        String outputFileName = args[1]; 
+
+        String text = "";  
+        String inputFileName = "input.txt"; 
+        String outputFileName = "output.txt"; 
+        FileReader inputFileReader = null; 
+        BufferedReader inputBfd = null;  
+
+        try {
+            inputFileReader = new FileReader(inputFileName);   
+            inputBfd = new BufferedReader(inputFileReader);
+
+            int charIndex = 0;
+            StringBuilder stringBuilder = new StringBuilder();   /
+            while ((charIndex = inputBfd.read()) != -1) {
+                stringBuilder.append((char) charIndex);
+            }
+            text = stringBuilder.toString(); 
+        }
+        catch (Exception e)
+        {
+            System.out.print(e.getMessage());
+            System.out.print("\n");
+        }
+        finally
+        {
+            if (inputBfd != null)
+                inputBfd.close();   
+            if (inputFileReader != null)
+                inputFileReader.close();
+        }
+
+        /*
+         */
+        Lib lib = new Lib(text);
+        int chars = lib.getChars();  
+        int lines = lib.getLines(); 
+        int words = lib.getWor
+        Map<String, Integer> maxCntWords = lib.getMaxCntWords();  
+
+
+        /*
+
+         */
+        File file = new File(outputFileName);
+        PrintWriter output = null;
+//        if (file.exists()) { 
+//            System.out.println(
+//            System.exit(1); /
+//        }
+
+        try
+        {
+            output = new PrintWriter(file);
+            output.print("characters:" + chars + '\n');
+            output.print("words:" + words + '\n');
+            output.print("lines:" + lines + '\n');
+            for (Map.Entry<String, Integer> entry : maxCntWords.entrySet())
+            {
+                output.print(entry.getKey() + ":" + entry.getValue() + '\n');
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.print(e.getMessage());
+            System.out.p
+        finally
+        {
+            if(output != null)
+                output.close();
+        }
+    }
+}
