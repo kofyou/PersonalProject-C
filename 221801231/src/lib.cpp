@@ -10,13 +10,13 @@ int myfile::Countchar(fstream &in, fstream &out)
 {
 
 	int totalCount = 0;
-	char temp;
+	char tempCh;
 	in.unsetf(ios_base::skipws);//设置不跳过换行符和空白符
-	in >> temp;
+	in >> tempCh;
 	while (!in.eof())
 	{
 		totalCount++;
-		in >> temp;
+		in >> tempCh;
 	}
 	out << "characters:" << totalCount << '\n';
 	return totalCount;
@@ -41,10 +41,10 @@ int myfile::Countword(fstream &in, fstream &out)
 	int totalCount = 0;
 	string wordString = "";
 	char temp;
-	in >> noskipws;
 	if (in.eof())
 	{
 		cout << "文件到达末尾" << endl;
+		return -1;
 	}
 	while (!in.eof())
 	{

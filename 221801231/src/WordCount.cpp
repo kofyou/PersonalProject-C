@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 	in.open("./"+inputFileName, ios::in | ios::binary);
 	if (!in.is_open())
 	{
-		cout << "无法打开文件" << endl;
+		cout << "无法打开文件:"<<argv[1] << endl;
 		exit(0);
 	}
 	out.open("./" + outputFileName, ios::out);
