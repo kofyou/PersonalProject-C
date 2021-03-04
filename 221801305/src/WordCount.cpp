@@ -17,10 +17,11 @@ struct Word
 vector<Word> words;
 Word oneWord;
 
-void countCharacter(char*, char*);
-void countLine(char*, char*);
-void countWord(char*, char*);
-void sortWord(char*);
+int countCharacter(char*);
+int countLine(char*);
+int countWord(char*);
+void sortWord();
+void printResult(char*, int, int, int);
 bool isExist(string);
 bool isWord(string);
 string convertToLower(string);
@@ -40,16 +41,41 @@ int main(int argc, char* argv[])
 {
     char* inFile = argv[1];
     char* outFile = argv[2];
+    int chNumber = 0;
+    int wordNumber = 0;
+    int lineNumber = 0;
 
-    countCharacter(inFile, outFile);
-    countWord(inFile, outFile);
-    countLine(inFile, outFile);
-    sortWord(outFile);
-    //int num_i = atoi(argv[i]); 
+    chNumber = countCharacter(inFile);
+    wordNumber = countWord(inFile);
+    lineNumber = countLine(inFile);
+    sortWord();
+    printResult(outFile, chNumber, lineNumber, wordNumber);
     return 0;
 }
 
-void countCharacter(char* inFile, char* outFile)
+void printResult(char* outFile, int chNumber, int lineNumber, int wordNumber)
+{
+    fstream fout(outFile, ios::out);
+    if (!fout.is_open())
+    {
+        cout << "以写方式打开文件失败!" << endl;
+        exit(0);
+    }
+    fout << "characters: " << chNumber - 1 << '\n';//chNumber的结果要消除BOM的影响
+    fout << "words: " << wordNumber << '\n';
+    fout << "lines: " << lineNumber << '\n';
+
+    vector<Word>::iterator it;
+    int i;
+    for (i = 0, it = words.begin();(it != words.end()) && i < 10;it++, i++)
+    {
+        fout << i + 1 << '.' << (*it).word << ": " << (*it).frequency << '\n';
+    }
+
+    fout.close();
+}
+
+int countCharacter(char* inFile)
 {
     fstream fin(inFile, ios::in);
     if (!fin.is_open())
@@ -67,19 +93,10 @@ void countCharacter(char* inFile, char* outFile)
         }
     }
     fin.close();
-
-    fstream fout(outFile, ios::out);
-    if (!fout.is_open())
-    {
-        cout << "以写方式打开文件失败!" << endl;
-        exit(0);
-    }
-    //cout << chNumber << endl;
-    fout << "characters: " << chNumber - 1 << '\n';//chNumber的结果要消除BOM的影响
-    fout.close();
+    return chNumber;
 }
 
-void countWord(char* inFile, char* outFile)
+int countWord(char* inFile)
 {
     fstream fin(inFile, ios::in);
     if (!fin.is_open())
@@ -120,17 +137,10 @@ void countWord(char* inFile, char* outFile)
     }
     fin.close();
 
-    fstream fout(outFile, ios::app);
-    if (!fout.is_open())
-    {
-        cout << "以写方式打开文件失败!" << endl;
-        exit(0);
-    }
-    fout << "words: " << wordNumber << '\n';
-    fout.close();
+    return wordNumber;
 }
 
-void countLine(char* inFile, char* outFile)
+int countLine(char* inFile)
 {
     fstream fin(inFile, ios::in);
     if (!fin.is_open())
@@ -139,7 +149,7 @@ void countLine(char* inFile, char* outFile)
         exit(0);
     }
     char ch;
-    int judge = 0;//判断一行中是否有非空白符
+    int judge = 0;//用于判断一行中是否有非空白符
     int lineNumber = 0;
     while (fin.get(ch))
     {
@@ -149,37 +159,18 @@ void countLine(char* inFile, char* outFile)
                 lineNumber++;
             judge = 0;
         }
-        if (ch >= 33 && ch <= 126) judge = 1;
+        if (ch >= 33 && ch <= 126)
+            judge = 1;
     }
     fin.close();
 
-    fstream fout(outFile, ios::app);
-    if (!fout.is_open())
-    {
-        cout << "以写方式打开文件失败!" << endl;
-        exit(0);
-    }
-    fout << "lines: " << lineNumber << '\n';
-    fout.close();
+    return lineNumber;
 }
 
 //对统计好的单词进行排序
-void sortWord(char* outFile)
+void sortWord()
 {
     sort(words.begin(), words.end());
-    fstream fout(outFile, ios::app);
-    if (!fout.is_open())
-    {
-        cout << "以写方式打开文件失败!" << endl;
-        exit(0);
-    }
-    vector<Word>::iterator it;
-    int i;
-    for (i = 0, it = words.begin();(it != words.end()) && i < 10;it++, i++)
-    {
-        fout << (*it).word << ": " << (*it).frequency << '\n';
-    }
-    fout.close();
 }
 
 
