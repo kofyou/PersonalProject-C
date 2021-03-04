@@ -14,13 +14,14 @@
 
 using namespace std;
 
-int CountChar(char* filein, char* fileout);//统计字符数
+int CountChar(char* filename);
 
-int CountWord(char* filein, char* fileout);//统计单词数
+int CountWord(char* filename);
 
-int CountLine(char* filein, char* fileout);//统计有效行数
+int CountLine(char* filename);
 
-int CountMaxWord(char* filein, char* fileout, vector<pair<string, int>>& x);//统计单词出现次数
+void CountAndSort(char* filename, vector<pair<string, int>>& x);
 
+int Display(vector<pair<string, int>>& x);
 
 #endif
