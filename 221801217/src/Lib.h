@@ -7,3 +7,13 @@
 #include<ctime>
 
 use namesapce std;
+
+
+
+int countLine();
+
+int countChar();
+
+int countWord();
+
+void output();
