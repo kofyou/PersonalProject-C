@@ -14,13 +14,13 @@
 
 using namespace std;
 
-int CountChar(char* filemm);
+int CountChar(char* filename);
 
-int CountWord(char* filemm);
+int CountWord(char* filename);
 
-int CountLine(char* filemm);
+int CountLine(char* filename);
 
-void CountAndSort(char* filemm, vector<pair<string, int>>& x);
+void CountAndSort(char* filename, vector<pair<string, int>>& x);
 
 int Display(vector<pair<string, int>>& x);
 
