@@ -4,11 +4,12 @@
 
 1. README.md 说明文件
 2. codestyle.md 代码风格
-3. Main.cpp 主函数所在的文件
-4. WordCount.h 包含类、结构体、函数声明的头文件
-5. WordCount.cpp 包含函数的实现的源文件
+3. WordCount.cpp 主函数所在的文件
+4. CountWord.h 包含类、结构体、函数声明的头文件
+5. CountWord.cpp 包含函数的实现的源文件
 
 题目要求：https://edu.cnblogs.com/campus/fzu/FZUSESPR21/homework/11672
+
 博客链接：https://www.cnblogs.com/fu12138/p/14468915.html
 
 功能简介：

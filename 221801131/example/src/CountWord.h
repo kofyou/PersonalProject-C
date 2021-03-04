@@ -13,7 +13,7 @@ struct Words //用于存放单词及次数
     int count;
 };
 
-class WordCount
+class CountWord
 {
 private:
     int characternum;
@@ -24,7 +24,8 @@ private:
     Words *wwords;
 
 public:
-    WordCount(char *Path);
+    CountWord(char *Path);
+    CountWord();
     int getcharacternum();
     int getlinenum();
     int getwordnum1();
