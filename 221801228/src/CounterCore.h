@@ -19,6 +19,7 @@ namespace Core
         int wordCount;
         int lineCount;
         std::map<std::string, int> wordOccurs;
+        CountResult() : charCount(0), wordCount(0), lineCount(0) { }
     };
 
 

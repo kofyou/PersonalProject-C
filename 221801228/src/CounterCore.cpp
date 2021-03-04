@@ -1,6 +1,9 @@
+#define  _CRT_SECURE_NO_WARNINGS
 #include"CounterCore.h"
 #include<exception>
 #include<iostream>
+#include<stdio.h>
+
 
 Core::Counter::Counter(const std::string &file)
 {
@@ -18,20 +21,18 @@ Core::CountResult Core::Counter::count()
     if (encoding != FileType::UTF8 && encoding != FileType::UTF8BOM)
         throw std::exception(("file " + fileName + " is not an UTF-8 encoding file\n").c_str());
 
-    std::ifstream is(fileName, std::ios::basic_ios::binary);
-    result = CountResult();
+    FILE* file = fopen(fileName.c_str(), "rb");
 
     std::string word;
-    char c;
+    char c = '\0';
     bool readingWord = false;
     bool ignore = false;
     bool isLine = false;
 
-    //跳过UTF-8 with bom文件前三个字符EF BB BF
     if (encoding == FileType::UTF8BOM)
-        is.seekg(3, std::ios::beg);
+        fseek(file, 3, SEEK_SET);
 
-    while (is.read(&c, sizeof(c)))
+    while (fread(&c, sizeof(c), 1, file) != 0)
     {
         if (c >= -1 && c <= 255 && isascii(c))
             result.charCount++;
@@ -46,8 +47,8 @@ Core::CountResult Core::Counter::count()
 
             isLine = false;
         }
-
-        if (!isDivision(c) && !ignore)
+        bool isDvsn = isDivision(c);
+        if (!isDvsn && !ignore)
         {
             if (!readingWord && !isalpha(c))
                 ignore = true;
@@ -58,23 +59,28 @@ Core::CountResult Core::Counter::count()
             }
         }
 
-        if (isDivision(c))
+        if (isDvsn)
             ignore = false;
-        if (isDivision(c) && readingWord)
+        if (isDvsn && readingWord)
         {
             readingWord = false;
             if (isWord(word))
+            {
                 result.wordOccurs[word] += 1;
+                result.wordCount++;
+            }
             word.clear();
         }
     }
     if (isLine)
         result.lineCount++;
     if (readingWord && isWord(word))
+    {
+        result.wordCount++;
         result.wordOccurs[word] += 1;
+    }
 
-    is.close();
-    result.wordCount = result.wordOccurs.size();
+    fclose(file);
 
     return result;
 }
