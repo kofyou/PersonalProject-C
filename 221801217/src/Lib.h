@@ -6,9 +6,9 @@
 #include<algorithm>
 #include<ctime>
 
-use namesapce std;
+using namespace std;
 
-
+extern map<string, int> stringMap;
 
 int countLine();
 
@@ -16,4 +16,4 @@ int countChar();
 
 int countWord();
 
-void output();
+void output(ofstream out,);
