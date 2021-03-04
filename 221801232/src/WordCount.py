@@ -1,4 +1,5 @@
 import os, re, argparse
+import unittest
 
 
 def count_chars(str):
@@ -39,6 +40,9 @@ def sort_words(content):
                     word_dic[word] = word_dic.get(word, 0)+1
     word_dic = sorted(word_dic.items(), key=lambda x: (-x[1], x[0]))
     return word_dic
+    class mytest(unittest.TestCase):
+        def test(self):
+            self.assertEqual(main(input.txt, output.txt), 4)
 
 
 def main(inputfile, outputfile):
