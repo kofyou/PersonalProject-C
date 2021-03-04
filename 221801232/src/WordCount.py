@@ -42,15 +42,12 @@ def sort_words(content):
 
 
 def main(inputfile, outputfile):
-    # inputfile='input.txt'
-    # outputfile='output.txt'
     with open(inputfile, 'r', newline="\n") as f:
         text = f.readlines()
     chars_num = count_chars(text)
     lines_num = count_lines(text)
     words_num = count_words(text)
     count_num = sort_words(text)
-    print(count_num[0])
     with open(outputfile, 'w', newline="\n") as wf:
         wf.write('characters:'+str(chars_num)+'\nwords:'+str(words_num)+'\nlines:'+str(lines_num)+'\n')
         wf.write(count_num[0][0]+':'+str(count_num[0][1])+'\n'+count_num[1][0]+':'+str(count_num[1][1])+'\n'
