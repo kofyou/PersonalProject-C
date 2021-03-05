@@ -80,11 +80,7 @@ Core::CountResult Core::Counter::count()
         result.wordCount++;
         result.wordOccurs[word] += 1;
     }
-<<<<<<< HEAD
     
-=======
-
->>>>>>> 6128fba61d9aa03280f56cc309f8ec95eed53bbc
     fclose(file);
 
     return result;
