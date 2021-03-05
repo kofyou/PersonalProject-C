@@ -18,7 +18,7 @@ int myfile::Countchar(fstream &in, fstream &out)
 		totalCount++;
 		in >> tempCh;
 	}
-	out << "characters:" << totalCount << '\n';
+	out << "characters: " << totalCount << '\n';
 	return totalCount;
 }
 /*************************************************
@@ -137,7 +137,7 @@ int myfile::Countword(fstream &in, fstream &out)
 		}
 	}
 
-	out << "word:" << totalCount << endl;//输出单词的数量
+	out << "words: " << totalCount << endl;//输出单词的数量
 	return totalCount;
 }
 /*************************************************
@@ -169,7 +169,7 @@ int myfile::Countline(fstream &in, fstream &out)
 			}
 		}
 	}
-	out << "line:" << totalCount << endl;
+	out << "lines: " << totalCount << endl;
 	return totalCount;
 }
 /*************************************************
@@ -203,14 +203,14 @@ void myfile::Sortmap(fstream &out)
 	{
 		for (int i = 0;i < vec.size();i++)
 		{
-			out << vec[i].first << ":" << vec[i].second << endl;
+			out << vec[i].first << ": " << vec[i].second << endl;
 		}
 	}
 	else
 	{
 		for (int i = 0;i < 10;i++)
 		{
-			out << vec[i].first << ":" << vec[i].second << endl;
+			out << vec[i].first << ": " << vec[i].second << endl;
 		}
 	}
 }
