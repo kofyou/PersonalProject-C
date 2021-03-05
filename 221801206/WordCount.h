@@ -1,4 +1,3 @@
-
 #ifndef  __WORDCOUNT_H
 #define  __WORDCOUNT_H
 
