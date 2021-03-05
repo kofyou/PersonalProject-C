@@ -74,10 +74,12 @@ int GetLines(char* str)
 	return num+1;
 }
 
-void Show(string str[], int n)
+void Show(string str[], int n,string filename)
 {
+	cout << filename << endl;
+	ofstream outFile(filename, ios::app);
 	int a[MAXWORD] = { 0 };
-	for (int i = 0; i < n; i++)//遍历数组a中的元素，对当前元素a[i]，让它与它之前的每个元素相比较，计算出现的次数k
+	for (int i = 0; i < n; i++)
 	{
 		int k = 1;
 		if (str[i] != "0")
@@ -97,7 +99,7 @@ void Show(string str[], int n)
 	{
 		for (int j = 0; j < n; j++)
 		{
-			if (a[i] < a[j])
+			if (a[i] > a[j])
 			{
 				swap(a[i], a[j]);
 				swap(str[i], str[j]);
@@ -113,16 +115,20 @@ void Show(string str[], int n)
 		if (a[i] != 0)
 		{
 			cout << str[i] << ":" << a[i] << endl;
+			outFile << str[i] << ":" << a[i] << endl;
 		}
 	}
+	outFile << "------------" << "NEXT"<< "------------" <<endl;
+	outFile.close();
 }
 
-void GetNumbers(char* str)
+void GetNumbers(char* str,string filename)
 {
 	char temp[MAXWORD][MAXWORD] = {0};
 	int j = 0;
 	int num = 0;
 	string strx[MAXWORD] = {};
+
 	for (int i = 0; i < strlen(str); i++)
 	{
 		if (str[i] != ' ' && str[i] != '\n')
@@ -155,5 +161,5 @@ void GetNumbers(char* str)
 			}
 		}
 	}
-	Show(strx, num);
+	Show(strx, num,filename);
 }
