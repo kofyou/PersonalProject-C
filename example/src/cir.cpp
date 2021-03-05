@@ -81,6 +81,33 @@ void Wordcount::get_all()
 	get_mostword();
 }
 
+bool Dic_word(const string& a, const string& b)
+{
+	if (a < b)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+// 单词排序 
+bool Set_word(const words& a, const words& b)
+{
+	if (a.num == b.num)
+	{
+		return a.word < b.word;
+	}
+	else
+	{
+		return a.num > b.num;
+	}
+}
+
+char temp;
+
 void Wordcount::get_character()
 {
 	ifstream file(filename);
@@ -99,7 +126,7 @@ void Wordcount::get_character()
 
 }
 
-void myFile::get_line()
+void Wordcount::get_line()
 {
 	ifstream file(filename);
 	if (!file)
@@ -129,7 +156,7 @@ void myFile::get_line()
 	}
 }
 
-void myFile::get_word()
+void WordCount::get_word()
 {
 	ifstream file(filename);
 	if (!file)
@@ -181,7 +208,7 @@ void myFile::get_word()
 		word++; 
 		tempstr.push_back(_word);
 	}
-	sort(tempstr.begin(), tempstr.end(), dic_word); //将所有单词字典排序，方便后续统计
+	sort(tempstr.begin(), tempstr.end(), Dic_word); //将所有单词字典排序，方便后续统计
 	for (las = tempstr.begin(), fir = tempstr.begin() + 1; fir != tempstr.end(); fir++)
 	{
 		if (*fir != *las)
@@ -196,4 +223,26 @@ void myFile::get_word()
 	w.num = fir - las;
 	v.push_back(w);
 	file.close();
+}
+
+void Wordcount::get_mostword()
+{
+	sort(v.begin(), v.end(), Set_word);
+	if (v.size() <= 10)
+	{
+		for (int i = 0; i < v.size(); i++)
+		{
+			cout << "<" << v[i].word << ">: " << v[i].num << endl;//<<"word frequency: " << (float)v[i].num / word << endl;
+			result << "<" << v[i].word << ">: " << v[i].num << endl;//<<"word frequency: " << (float)v[i].num / word << endl;
+		}
+	}
+	else
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			cout << "<" << v[i].word << ">: " << v[i].num << endl;//<<"word frequency: " << (float)v[i].num / word << endl;
+			result << "<" << v[i].word << ">: " << v[i].num << endl;//<<"word frequency: " << (float)v[i].num / word << endl;
+		}
+	}
+	result.close();
 }

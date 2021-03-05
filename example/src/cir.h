@@ -47,7 +47,11 @@ class Wordcount
 		}
 };
 
+
+bool Dic_word(const string& a, const string& b);//字典排序
+bool Set_word(const words& a, const words& b);// 单词排序
 bool isAscil(char temp);//判断分割符 
 bool isWhite(char temp);//判断空白字符 
 bool isDigit(char temp);//判断是否为数字
 bool isWord(char temp);//单词检测 
+
