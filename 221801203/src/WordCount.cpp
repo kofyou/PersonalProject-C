@@ -131,7 +131,7 @@ void summarize(const char* in_file, const char* out_file) {
 	
 	int cur_line = 0; 
 	
-	input.open(in_file);
+	input.open(in_file,ios::binary);
 	if(!input.is_open() || input.bad()){
 		
 		printf("文件%s打开失败\n", in_file);
