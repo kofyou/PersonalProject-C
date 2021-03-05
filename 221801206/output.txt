@@ -1,9 +1,0 @@
-characters:156
-words:6
-lines:9
-ihjh123hsi:7
-hello:2
-hello11:2
-haikahe:1
-lkih:1
-lohi:1
