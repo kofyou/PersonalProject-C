@@ -12,7 +12,7 @@ int Count::CountLineNum(vector<string>& linesBuf)
 	int lineCount = 0;
 	for (int i = 0; i < linesBuf.size(); i++)
 	{
-		for (string::iterator it = linesBuf[i].begin(); it != linesBuf[i].end(); it++)
+		for (string::iterator it = linesBuf[i].begin(); it != linesBuf[i].end(); it ++ )
 		{
 			if (*it >= 32&& *it <= 126)  //可打印字符（32~126）
 			{
@@ -30,10 +30,10 @@ int Count::CountWordNum(vector<string>& linesBuf)
 	int wordCount = 0;
 	int linesBufSize = int(linesBuf.size());
 	string wordBuf;
-	for (int i = 0; i < linesBufSize; i++)
+	for (int i = 0; i < linesBufSize; i++ )
 	{
 		int len = int(linesBuf[i].length());
-		for (int j = 0; j < len; j++)
+		for (int j = 0; j < len; j++ )
 		{
 			if (isLetter(linesBuf[i][j]) || isDigit(linesBuf[i][j]))
 			{
@@ -57,10 +57,10 @@ int Count::CountWordNum(vector<string>& linesBuf)
 vector<map<string, int>::iterator>& Count::CountTop10Word()
 {
 	int WordMapSize = int(WordMap.size());
-	for (int i = 0; i < WordMapSize && i < 10; i++)
+	for (int i = 0; i < WordMapSize && i < 10; i++ )
 	{
 		auto maxFreWord = WordMap.begin();
-		for (map<string, int>::iterator it = WordMap.begin(); it != WordMap.end(); it++)
+		for (map<string, int>::iterator it = WordMap.begin(); it != WordMap.end(); it++ )
 		{
 			if (it->second > maxFreWord->second)
 			{
