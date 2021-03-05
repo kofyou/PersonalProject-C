@@ -1,7 +1,7 @@
 #include <iostream>
-#include <fstream>
-#include <cstring>
 #include <cstdlib>
+#include <cstring>
+#include <fstream>
 
 using namespace std;
 
@@ -17,9 +17,13 @@ typedef struct words_record{	// 结构体：单词记录
 	int n_word_count;			// 单词的数量 
 }WRec;
 
-bool is_digit(char ch);         // 判断ch是否是一个数字字符 
+bool is_digit(char ch);			// 判断ch是否是一个数字字符 
 bool is_alpha(char ch);			// 判断ch是否是一个字母 
-void summarize(const char* in_file, const char* out_file);	  // 对输入文件in_file进行统计，输出到out_file
+char lowercase(char ch);		// 将ch转换为小写 
+void add_word_to_(WRec &records, const char* word);			// 将word加到records中 
+void sort_WRec(WRec &records);								// 按照频率和字典顺序排序 
+void summarize(const char* in_file, const char* out_file);	// 对输入文件in_file进行统计，输出到out_file
+
 
 int main(int argc, const char* argv[]) {
 	
@@ -34,6 +38,7 @@ int main(int argc, const char* argv[]) {
 	return 0;
 }
 
+
 bool is_digit(char ch) {
 	
 	return (ch >= '0' && ch <= '9');
@@ -42,6 +47,14 @@ bool is_digit(char ch) {
 bool is_alpha(char ch) {
 	
 	return ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) ;
+}
+
+char lowercase(char ch) {
+	
+	if(ch >= 'A' && ch <= 'Z')	// 大写字母的ascall加32等于对应的小写字母 
+		return ch+32;
+								// 如果不是大写字母，返回原本的值 
+	return ch;
 }
 
 bool is_word(const char* str) {
@@ -63,14 +76,6 @@ bool is_word(const char* str) {
 			return true;
 	}
 	return false;
-}
-
-char lowercase(char ch) {
-	
-	if(ch >= 'A' && ch <= 'Z')	// 大写字母的ascall加32等于对应的小写字母 
-		return ch+32;
-								// 如果不是大写字母，返回原本的值 
-	return ch;
 }
 
 void add_word_to_(WRec &records, const char* word) {
@@ -170,7 +175,6 @@ void summarize(const char* in_file, const char* out_file) {
 	}
 	input.close();
 	sort_WRec(records);
-
 	
 	// 输出到指定输出文件 
 	output.open(out_file);
@@ -188,3 +192,4 @@ void summarize(const char* in_file, const char* out_file) {
 	}
 	output.close();
 }
+
