@@ -136,7 +136,9 @@ void summarize(const char* in_file, const char* out_file) {
 				}
 			}
 		}
-
+    printf("");
+	if(!line_empty)
+		n_line++;
 	}
 	input.close();
 
