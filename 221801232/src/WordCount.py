@@ -1,7 +1,6 @@
 # coding:utf-8
 import os, re, argparse
 import unittest
-import time
 import codecs
 
 
@@ -64,12 +63,10 @@ def main(inputfile, outputfile):
 
 
 if __name__ == '__main__':
-    start = time.perf_counter()
     parser = argparse.ArgumentParser()
     parser.add_argument('input', type=str, default='input.txt', help='input_file_path')
     parser.add_argument('output', type=str, default='output.txt', help='output_file_path')
     args = parser.parse_args()
     main(args.input, args.output)
-    end = time.perf_counter()
-    print('Running time: %s Seconds' % (end-start))
+
 
