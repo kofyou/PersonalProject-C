@@ -20,16 +20,16 @@ class WordCount;
 class WordCount
 {
 	private:
-		int ccount;    //characters' count
-		int wcount;    //words' count
-		int ecount;    //enter count
+		int w_char;    //characters' count
+		int w_word;    //words' count
+		int w_line;    //enter count
 		map<string,int> wordmap;
 		
 	public:
 		WordCount(){
-			ccount=0;
-			wcount=0;
-			ecount=0;
+			w_char=0;
+			w_word=0;
+			w_line=0;
 		}
 		
 		//function
@@ -41,7 +41,7 @@ class WordCount
 
 bool cmp(const pair<string, int>& a, const pair<string, int>& b)
 {
-        return a.second > b.second;
+    return a.second > b.second;
 }
 
 void WordCount::charAndEntercount(string pathstr)
@@ -81,12 +81,13 @@ void WordCount::charAndEntercount(string pathstr)
 				}
 			}
 		}
+		
 		cc--;
 		infs.close();
 	}
 	
-	ccount=cc;
-	ecount=ec;
+	w_char=cc;
+	w_line=ec;
 }
 
 void WordCount::wCount(string pathstr)
@@ -180,7 +181,7 @@ void WordCount::wCount(string pathstr)
 		}
 		infs.close();
 	}
-		wcount=wcot;	
+		w_word=wcot;	
 }
 
 //output wordcount
@@ -199,10 +200,10 @@ void WordCount::writeTxt(string outstr)
 		cout<<"Cannot open file.\n";
 		return;
 	} 
-	out<<"characters:"<<ccount<<'\n';
-	out<<"words:"<<wcount<<'\n';
-	out<<"lines:"<<ecount<<'\n';
-	if(wcount<10)
+	out<<"characters:"<<w_char<<'\n';
+	out<<"words:"<<w_word<<'\n';
+	out<<"lines:"<<w_line<<'\n';
+	if(w_word<10)
 	{
 		for(it;it!= vec.end();it++)
 		{
