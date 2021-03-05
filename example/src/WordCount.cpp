@@ -1,6 +1,8 @@
 #include"cir.h"
 #include <iostream>
 
+using namespace std; 
+
 int main(int argc, char** argv)
 {
 
@@ -8,6 +10,5 @@ int main(int argc, char** argv)
 
 	myFile file(wordcount);
 	file.get_all();
-	cout << "ÒÑÊä³öÖÁout.txt" << endl;
 	return 0;
 }

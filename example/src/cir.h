@@ -46,13 +46,8 @@ class Wordcount
 			return line; 
 		}
 };
-bool isAscil(char a);
-bool isWhite(char a);
-bool isDigit(char a);
 
-Wordcount::Wordcount()
-{
-	character = 0;
-	word = 0;
-	line = 0;
-}
+bool isAscil(char temp);//ÅÐ¶Ï·Ö¸î·û 
+bool isWhite(char temp);//ÅÐ¶Ï¿Õ°××Ö·û 
+bool isDigit(char temp);//ÅÐ¶ÏÊÇ·ñÎªÊý×Ö
+bool isWord(char temp);//µ¥´Ê¼ì²â 
