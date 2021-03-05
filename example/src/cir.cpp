@@ -18,7 +18,7 @@ bool isAscil(char temp)
 
 bool isWhite(char temp) 
 { 
-	if (temp == ' ' || temp == '\n')
+	if (temp == ' ' || temp == '\n'|| temp == '\t')
 	{
 		return true;
 	}
