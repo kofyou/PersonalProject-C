@@ -11,6 +11,36 @@ string InputFile(const char* filename){
 		return sstring;
 }
 
+//OutputFlieMode
+void OutputFlie(char* filename,string inputString) {
+	//
+	ofstream outputFlie(filename);
+	
+	outputFlie << "characters: " << CountChar(inputString) << endl;
+	outputFlie << "words: " << CountWord(inputString) << endl;
+	outputFlie << "lines: " << CountRow(inputString) << endl;
+	
+	for (map<string, int>::iterator it = m.begin(); it != m.end(); it++) {
+		vec.push_back(pair<string, int>(it->first, it->second));
+	}
+	//sort  
+	sort(vec.begin(), vec.end(), cmp);
+	if (vec.size() < MAX_OUTPUT_NUMBER) {
+		for (vector< pair<string, int> >::iterator it = vec.begin(); it != vec.end(); it++) {
+			outputFlie << (*it).first << ' ' << (*it).second << endl;
+		}
+	}
+	else {
+	int outPutNum = MAX_OUTPUT_NUMBER;
+			for (vector< pair<string, int> >::iterator it = vec.begin(); it != vec.end(), outPutNum > 0; it++) {
+				outputFlie << (*it).first << ": " << (*it).second << endl;
+				outPutNum--;
+			}
+	}
+	outputFlie.close();
+}
+
+
 int CountChar(string inputString) {
 	int count = 0;
 	count = inputString.length();
@@ -83,13 +113,13 @@ int CountRow(string inputString) {
 	int sum = 0;
 	bool flag = 1;
 	
-	if (inputString[0] == CR_NUMBER || inputString[0] == LINE_FEED_NUMBER) {
+	if (inputString[0] == '\t' || inputString[0] == '\r'|| inputString[0] == '\n') {
 		while (!IsBlankChar(inputString[i]))
 			i++;
 	}
 	for (; i < inputString.length(); i++) {
 
-		if ((inputString[i] == CR_NUMBER || inputString[i] == LINE_FEED_NUMBER)) {
+		if ((inputString[i] == '\t' || inputString[i] == '\r'|| inputString[i] == '\n')) {
 			sum++;
 			while (IsBlankChar(inputString[i]))
 				i++;
@@ -102,7 +132,7 @@ int CountRow(string inputString) {
 }
 
 bool IsBlankChar(char c) {
-	return c == LINE_FEED_NUMBER || c == CR_NUMBER || c == BLANK_SPACE_NUMBER;
+	return c == '\r' || c == ' '||c == '\n'|| c == '\t';
 }
 
 bool NotNumberOrLetter(char s) {
