@@ -27,6 +27,9 @@ int isWord(int cntAlpha,int cntNum,int increase);
 //统计文件的有效行数
 int countRow(FILE *fp,char *argv);
 
+//统计文件中各单词出现的次数
+void top10(FILE *fp,FILE *fp1,char *argv); 
+
 int main(int argc,char *argv[]) {
 	FILE *fp,*fp1;
 	if((fp=fopen(argv[1],"rt"))==NULL){
@@ -45,6 +48,10 @@ int main(int argc,char *argv[]) {
 	
 	//统计文件的有效行数 
 	countRow(fp,argv[2]); 
+	rewind(fp);
+	
+	//统计文件中各单词出现的次数
+	top10(fp,fp1,argv[2]); 
 	
 	fclose(fp);
 	fclose(fp1);
@@ -145,4 +152,149 @@ int countRow(FILE *fp,char *argv){
 	output<<"有效行数为"<<row<<std::endl;
 //	printf("有效行数为%d\n",row);
 	return row;
+}
+
+//统计文件中各单词出现的次数
+void top10(FILE *fp,FILE *fp1,char *argv){	
+	//按频次排序 
+	map<int,string>mapSorted;
+	//按字典序排序 
+	map<string,int>mapCmp;
+	
+	char ch; 
+	//单词总数、字母总数、数字总数、单词内字符数 
+	int cntWord,cntAlpha,cntNum,cntChar; 
+	cntWord=cntAlpha=cntNum=cntChar=0;
+	
+	int increase=0;
+	
+	while((ch=fgetc(fp))!=EOF){ 
+		//是字母或数字 
+		if(isalnum(ch)){
+			if(isdigit(ch)){
+				cntNum++;
+				//出现数字，则将cntAlpha清零 
+				cntAlpha=0;
+			}
+			else if(isalpha(ch)){
+				cntAlpha++;
+				if(isWord(cntAlpha,cntNum,increase)){
+					cntWord++;
+					increase=1; 
+					cntChar=3;
+				}
+			}
+			if(increase){
+				cntChar++;
+			} 
+		}
+		
+		else if(ch!=10){
+			//单词结尾第一个分隔符 
+			if(increase){
+				FILE *fp1=fp;
+				for(int i=0;i<cntChar;i++){
+					fseek(fp1,-1L,SEEK_CUR);
+				}
+				fseek(fp1,-1L,SEEK_CUR);
+				char wordStr[cntChar+1],chWord;
+				wordStr[cntChar]='\0';
+				for(int i=0;i<cntChar;i++){
+					chWord=fgetc(fp1);
+					chWord=tolower(chWord);
+					wordStr[i]=chWord;
+				}
+				string str=wordStr;
+				map<string,int>::iterator l_it;
+				l_it=mapCmp.find(str);
+				if(l_it==mapCmp.end()){
+					mapCmp[str]=1;
+				}
+				else{
+					mapCmp[str]++;
+				}
+			}
+			cntNum=cntAlpha=increase=cntChar=0;
+		}
+
+		else if(ch==10){
+
+			if(increase){
+				FILE *fp1=fp;
+				for(int i=0;i<cntChar;i++){
+					fseek(fp1,-1L,SEEK_CUR);
+				}
+				fseek(fp1,-2L,SEEK_CUR);
+				char wordStr[cntChar+1],chWord;
+				wordStr[cntChar]='\0';
+				for(int i=0;i<cntChar;i++){
+					chWord=fgetc(fp1);
+					chWord=tolower(chWord);
+					wordStr[i]=chWord;
+				}
+				string str=wordStr;
+				map<string,int>::iterator l_it;
+				l_it=mapCmp.find(str);
+				if(l_it==mapCmp.end()){
+					mapCmp[str]=1;
+				}
+				else{
+					mapCmp[str]++;
+				}
+			}
+			cntNum=cntAlpha=increase=cntChar=0;
+		}
+	}
+	
+	{
+		if(increase){
+			FILE *fp1=fp;
+			for(int i=0;i<cntChar;i++){
+				fseek(fp1,-1L,SEEK_CUR);
+			}
+			char wordStr[cntChar+1],chWord;
+			wordStr[cntChar]='\0';
+			for(int i=0;i<cntChar;i++){
+				chWord=fgetc(fp1);
+				chWord=tolower(chWord);
+				wordStr[i]=chWord;
+			}
+			string str=wordStr;
+			map<string,int>::iterator l_it;
+			l_it=mapCmp.find(str);
+			if(l_it==mapCmp.end()){
+				mapCmp[str]=1;
+			}
+			else{
+				mapCmp[str]++;
+			}
+		}
+		cntNum=cntAlpha=increase=cntChar=0;
+	} 
+	 
+	//将mapCmp中的数据存入mapSorted 
+	map<string,int>::iterator l_it;
+	l_it=mapCmp.begin();
+	map<int,string>::iterator m_it;
+	for(int i=0;i<mapCmp.size();i++){
+		m_it=mapSorted.find(l_it->second);
+		if(m_it==mapSorted.end()){
+			mapSorted[l_it->second]=l_it->first;
+		}
+		else{
+			if(l_it->first.compare(mapSorted[l_it->second])<0){
+				mapSorted[l_it->second]=l_it->first;
+			}
+		}
+		l_it++;
+	}
+	m_it=mapSorted.begin();
+	for(int i=0;i<10;i++){
+		//统计文件中各单词出现的次数 
+		ofstream output(argv, ios::app);
+		output<<m_it->second.c_str()<<':'<<m_it->first<<std::endl;
+		std::cout<<m_it->second.c_str()<<':'<<m_it->first<<std::endl;
+		if(m_it!=mapSorted.end())
+		m_it++;
+	}
 }
