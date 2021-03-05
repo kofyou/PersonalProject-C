@@ -8,10 +8,10 @@
 	4.codestyle.md代码规范
 
 ##题目要求
-	<https://edu.cnblogs.com/campus/fzu/FZUSESPR21/homework/11672>
+<https://edu.cnblogs.com/campus/fzu/FZUSESPR21/homework/11672>
 
 ##博客链接
-	<https://www.cnblogs.com/AgCl9/p/14473073.html>
+<https://www.cnblogs.com/AgCl9/p/14473073.html>
 
 ##功能介绍
 	1.统计字符数；
