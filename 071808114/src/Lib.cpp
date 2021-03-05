@@ -1,14 +1,13 @@
 ﻿#include"Lib.h"
 
 
-int CountChar(char* filename)
+int CountChar(char* filein, char* fileout)
 {
 	int charcnt = 0;
 	char c;
-	ifstream f;
 
-	f.open(filename, ios::in);
-	ofstream outf("output.txt");
+	ifstream f(filein, ios::in);
+	ofstream outf(fileout);
 
 	while (f.get(c))
 	{
@@ -20,22 +19,21 @@ int CountChar(char* filename)
 	return charcnt;
 }
 
-int CountWord(char* filename)//统计词数
+int CountWord(char* filein, char* fileout)//统计词数
 {
 	string s;
-	vector<int> ans;//存分隔符位置
+	vector<int> separators;//存分隔符位置
 	int wordcnt = 0;
 
-	ifstream f;
-	f.open(filename, ios::in);
-	ofstream outf("output.txt", ios::app);
+	ifstream f(filein, ios::in);
+	ofstream outf(fileout, ios::app);
 
-	while (f >> s) //一次读取一个字符串，读取字符串不包括换行和空格和制表符
+	while (f >> s) //一次读取一个字符串，读取字符串不包括换行、空格和制表符
 	{
 
-		ans.clear();
-		int ssize = s.size();
-		for (int i = 0; i < ssize; i++)
+		separators.clear();
+		int s_size = s.size();
+		for (int i = 0; i < s_size; i++)
 		{
 			if (s[i] >= 'A' && s[i] <= 'Z')//不区分大小写 统一转化为小写
 			{
@@ -43,11 +41,11 @@ int CountWord(char* filename)//统计词数
 			}
 			if (s[i] < 48 || (s[i] > 57 && s[i] < 65) || (s[i] > 90 && s[i] < 97) || s[i]>122)
 			{
-				ans.push_back(i);
+				separators.push_back(i);
 			}
 		}
 
-		if (ans.size() == 0)//如果分割符数目等于0，就是只有一个字符串
+		if (separators.size() == 0)//如果没有分隔符，就是只有一个字符串
 		{
 			//如果从该符号起四个字符都是字母
 			if ((s[0] >= 'a' && s[0] <= 'z') && (s[1] >= 'a' && s[1] <= 'z') && (s[2] >= 'a' && s[2] <= 'z') && (s[3] >= 'a' && s[3] <= 'z'))
@@ -64,15 +62,16 @@ int CountWord(char* filename)//统计词数
 			wordcnt++;
 		}
 
-		for (int i = 0; i < ans.size(); i++)
+		for (int i = 0; i < separators.size(); i++)
 		{
 			//满足分隔符后四个字符是字母
-			if ((s[ans[i] + 1] >= 'a' && s[ans[i] + 1] <= 'z') && (s[ans[i] + 2] >= 'a' && s[ans[i] + 2] <= 'z') &&
-				(s[ans[i] + 3] >= 'a' && s[ans[i] + 3] <= 'z') && (s[ans[i] + 4] >= 'a' && s[ans[i] + 4] <= 'z'))
+			if ((s[separators[i] + 1] >= 'a' && s[separators[i] + 1] <= 'z') && (s[separators[i] + 2] >= 'a' && s[separators[i] + 2] <= 'z') &&
+				(s[separators[i] + 3] >= 'a' && s[separators[i] + 3] <= 'z') && (s[separators[i] + 4] >= 'a' && s[separators[i] + 4] <= 'z'))
 			{
 				wordcnt++;
 			}
 		}
+		Sleep(1);
 	}
 	outf << "words: " << wordcnt << endl;
 	f.close();
@@ -81,15 +80,14 @@ int CountWord(char* filename)//统计词数
 
 }
 
-int CountLine(char* filename)
+int CountLine(char* filein, char* fileout)
 {
-	ifstream f;
-	f.open(filename, ios::in);
-	ofstream outf("output.txt", ios::app);
-
 	int linecnt = 0;
 	char c;
 	int lineflag = 0;
+
+	ifstream f(filein, ios::in);
+	ofstream outf(fileout, ios::app);
 
 
 	while (f.get(c))
@@ -99,11 +97,12 @@ int CountLine(char* filename)
 		{
 			lineflag = 1;
 		}
-		else if (c == '\n' && lineflag == 1) {
+		else if (c == '\n' && lineflag == 1)
+		{
 			linecnt++;
 			lineflag = 0;
 		}
-
+		
 	}
 
 	if (lineflag == 1)linecnt++;
@@ -117,22 +116,21 @@ int CountLine(char* filename)
 }
 
 
-void CountAndSort(char* filename, vector<pair<string, int>>& x)//统计词数词频
+void CountMaxWord(char* filein, vector<pair<string, int>>& x)//统计词数词频
 {
-	map<string, int> mapp;
+	map<string, int> time;//存单词名和次数
 	string s;
-	vector<int> ans;//存分隔符位置
+	vector<int> separators;//存分隔符位置
 
-	ifstream f;
-	f.open(filename, ios::in);
+	ifstream f(filein, ios::in);
 
 	while (f >> s) //一次读取一个字符串，读取字符串不包括换行和空格和制表符
 	{
 
-		ans.clear();
+		separators.clear();
 		int i;
-		int ssize = s.size();
-		for (i = 0; i < ssize; i++)
+		int s_size = s.size();
+		for (i = 0; i < s_size; i++)
 		{
 			if (s[i] >= 'A' && s[i] <= 'Z')
 			{
@@ -140,68 +138,59 @@ void CountAndSort(char* filename, vector<pair<string, int>>& x)//统计词数词
 			}
 			if (s[i] < 48 || (s[i] > 57 && s[i] < 65) || (s[i] > 90 && s[i] < 97) || s[i]>122)
 			{
-				ans.push_back(i);
+				separators.push_back(i);
 			}
 		}
-		int sss = ans.size();
+		int separators_size = separators.size();
 
-		if (sss == 0)//如果分割符数目等于0，就是只有一个字符串
+		if (separators_size == 0)//如果分割符数目等于0，就是只有一个字符串
 		{
 			//如果从该符号起四个字符都是字母
 			if ((s[0] >= 97 && s[0] <= 122) && (s[1] >= 97 && s[1] <= 122) && (s[2] >= 97 && s[2] <= 122) && (s[3] >= 97 && s[3] <= 122))
 			{
-				mapp[s]++;
+				time[s]++;
 			}
 			continue;
 		}
-
+		
 		//否则就有一个以上的分隔符
 		//先判断第一个，因为第一个没有分隔符做开头标记
-		if ((s[0] >= 97 && s[0] <= 122) && (s[1] >= 97 && s[1] <= 122) && (s[2] >= 97 && s[2] <= 122) && (s[3] >= 97 && s[3] <= 122))
+		else if ((s[0] >= 97 && s[0] <= 122) && (s[1] >= 97 && s[1] <= 122) && (s[2] >= 97 && s[2] <= 122) && (s[3] >= 97 && s[3] <= 122))
 		{
-			string temp(s.substr(0, ans[0]));//满足前四个字符是字母，截取
-			mapp[temp]++;
+			string temp(s.substr(0, separators[0]));//满足前四个字符是字母，截取
+			time[temp]++;
 		}
 
-		for (i = 0; i < sss; i++)
+		for (i = 0; i < separators_size; i++)
 		{
 			//满足分隔符后四个字符是字母
-			if ((s[ans[i] + 1] >= 97 && s[ans[i] + 1] <= 122) && (s[ans[i] + 2] >= 97 && s[ans[i] + 2] <= 122) &&
-				(s[ans[i] + 3] >= 97 && s[ans[i] + 3] <= 122) && (s[ans[i] + 4] >= 97 && s[ans[i] + 4] <= 122))
+			if ((s[separators[i] + 1] >= 97 && s[separators[i] + 1] <= 122) && (s[separators[i] + 2] >= 97 && s[separators[i] + 2] <= 122) &&
+				(s[separators[i] + 3] >= 97 && s[separators[i] + 3] <= 122) && (s[separators[i] + 4] >= 97 && s[separators[i] + 4] <= 122))
 			{
 				string a;
-				if (i == sss - 1)
+				if (i == separators_size - 1)
 				{
-					string temp(s.substr(ans[i] + 1, s.size() - ans[i] - 1));
+					string temp(s.substr(separators[i] + 1, s.size() - separators[i] - 1));
 					a = temp;
 				}
 				else
 				{
-					string temp(s.substr(ans[i] + 1, ans[i + 1] - ans[i] - 1));
+					string temp(s.substr(separators[i] + 1, separators[i + 1] - separators[i] - 1));
 					a = temp;
 				}
-				mapp[a]++;
+				time[a]++;
 			}
 		}
+		
 	}
 
+	vector<pair<string, int>> v(time.begin(), time.end());//词频排序
 
-	f.close();
-
-	/*vector<pair<string, int>> w(mapp.begin(), mapp.end());//词频排序
-	x=w;
-	sort(x.begin(), x.end(), SortByValue());*/
-
-
-	vector<pair<string, int>> v(mapp.begin(), mapp.end());//词频排序
-
-
-	for (int i = 0; i < mapp.size(); i++)
+	for (int i = 0; i < time.size(); i++)
 	{
-		if (i == 10) break;
-		int max = 0;
-		string maxword;
-		int enflag = 0;
+		if (i == 10) break;//最多取10个
+		int max = 0;//最大出现次数
+		string maxword;//对应单词名
 		for (vector<pair<string, int>>::iterator vec = v.begin(); vec != v.end(); vec++)
 		{
 			if (vec->second > max)
@@ -225,31 +214,42 @@ void CountAndSort(char* filename, vector<pair<string, int>>& x)//统计词数词
 		{
 			if (vec->first == maxword)
 			{
-				vec->second = -1;
+				vec->second = -1;//出现次数置-1
 				break;
 			}
 
 		}
+
 	}
 
 
+
+	f.close();
+
 }
 
-
-int Display(vector<pair<string, int>>& x)
+int WriteToFile(char* fileout, vector<pair<string, int>>& x)
 {
-	int vecflag = 0;
-	ofstream outf("output.txt", ios::app);
-
+	int veccnt = 0;
 	for (vector<pair<string, int>>::iterator vec = x.begin(); vec != x.end(); vec++)
 	{
 
+		ofstream outf(fileout, ios::app);
+
 		cout << vec->first << ":" << vec->second << endl;
 		outf << vec->first << ":" << vec->second << endl;
-		vecflag++;
-		if (vecflag == 10) break;
+
+		veccnt++;
+		if (veccnt == 10) break;
 
 	}
-
-	return vecflag;
+	return veccnt;
 }
+
+//void test(char* fileout)
+//{
+//	ofstream outf(fileout);
+//	for (int i = 0; i < 30000; i++) {
+//		outf << "apple123 " << endl;
+//	}
+//}

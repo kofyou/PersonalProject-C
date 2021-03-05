@@ -2,52 +2,45 @@
 
 using namespace std;
 
-extern int characters;
-extern int lines;
-extern int words;
 
 int main(int argc, char* argv[])
 {
+	freopen("unusual.txt","w",stdout);
 	//异常处理
-	if (argv[1] == NULL)
+	if (argv[1] == NULL || argv[2]==NULL)
 	{
-		printf("请输入文件路径\n");
+		cout << "请输入文件路径" << endl;
 		return -1;
 	}
-	/*if (argc > 3)
+	
+	if (argc > 3)
 	{
-		printf("输入文件过多\n");
-		return -1;
-	}*/
-	int len = strlen(argv[1]);
-	if (!(*(argv[1] + len - 1) == 't' &&
-		*(argv[1] + len - 2) == 'x' &&
-		*(argv[1] + len - 3) == 't'))
-	{
-		printf("输入文件不是txt形式\n");
+		cout << "输入文件过多" << endl;
 		return -1;
 	}
-
+	
+	/*test(argv[1]);*/
 	ifstream f;
 	f.open(argv[1], ios::in);
 	if (!f)
 	{
-		printf("无法打开文件\n");
+		cout << "无法打开文件" << endl;
 		return -1;
 	}
 	f.close();
 
-	int charsss = CountChar(argv[1]);
-	int linesss = CountLine(argv[1]);
-	int wordsss = CountWord(argv[1]);
+	int charcount = CountChar(argv[1],argv[2]);
+	int linecount = CountLine(argv[1], argv[2]);
+	int wordcount = CountWord(argv[1], argv[2]);
 
-	printf("characters: %d\n", charsss);
-	printf("words: %d\n", wordsss);
-	printf("lines: %d\n", linesss);
+	cout << "characters:" << charcount << endl;
+	cout << "words:" << wordcount << endl;
+	cout << "lines:" << linecount << endl;
+
 
 	vector<pair<string, int>> v;
-	CountAndSort(argv[1], v);
-	int num = Display(v);
+	CountMaxWord(argv[1], v);
+	int num = WriteToFile(argv[2], v);
 	v.clear();
 
 
