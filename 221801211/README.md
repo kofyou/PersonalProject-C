@@ -104,21 +104,17 @@
       			}
       			j = 0;
       		}
-      		if (num == 11)
-      		{
-      			break;
-      		}
       	}
       	return num;
       }
       ```
-
+      
    3. 统计行数：
-
+   
       ``` c++
-      int GetLines(char* str)
+   int GetLines(char* str)
       {
-      	int n = strlen(str);
+   	int n = strlen(str);
       	int num = 0;
       	if (str[n - 1] == '\n')
       	{
@@ -137,13 +133,13 @@
       	return num+1;
       }
       ```
-
+   
    4. 按照出现次数从多到少排列：
-
+   
       ``` c++
-      void GetNumbers(char* str,string filename)
+   void GetNumbers(char* str,string filename)
       {
-      	char temp[MAXWORD][MAXWORD] = {0};
+   	char temp[MAXWORD][MAXWORD] = {0};
       	int j = 0;
       	int num = 0;
       	string strx[MAXWORD] = {};
@@ -182,7 +178,7 @@
       	}
       }
       ```
-
+   
 4. 单元测试：
 
    1. 测试统计字符函数：

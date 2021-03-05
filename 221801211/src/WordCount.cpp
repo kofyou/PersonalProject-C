@@ -45,10 +45,6 @@ int GetWords(char* str)
 			}
 			j = 0;
 		}
-		if (num == 11)
-		{
-			break;
-		}
 	}
 	return num;
 }
