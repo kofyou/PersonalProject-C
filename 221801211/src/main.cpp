@@ -6,7 +6,6 @@ int main(int argc, char** argv)
 	inFile.open(argv[1]);
 	ofstream outFile(argv[2],ios::app);
 	string filename = argv[2];
-	outFile << "xxx";
 	char buffer[MAXWORDS] = {};
 	long i = 0;
 	char x;

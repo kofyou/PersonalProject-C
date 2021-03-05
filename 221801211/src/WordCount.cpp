@@ -76,7 +76,6 @@ int GetLines(char* str)
 
 void Show(string str[], int n,string filename)
 {
-	cout << filename << endl;
 	ofstream outFile(filename, ios::app);
 	int a[MAXWORD] = { 0 };
 	for (int i = 0; i < n; i++)
