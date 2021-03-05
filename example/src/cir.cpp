@@ -1,4 +1,4 @@
-﻿#include "pch.h"
+﻿#include "cir.h"
 
 bool isAscil(char temp) 
 { 
@@ -137,7 +137,7 @@ void Wordcount::get_line()
 
 	while (file >> temp)
 	{
-		if (!ch(temp))
+		if (!isWhite(temp))
 		{
 			ef++; // 空白符之间字符数量
 		}
@@ -153,7 +153,7 @@ void Wordcount::get_line()
 	}
 }
 
-void WordCount::get_word()
+void Wordcount::get_word()
 {
 	ifstream file(filename);
 	if (!file)
@@ -182,7 +182,7 @@ void WordCount::get_word()
 			flag = 1; 
 			_word.clear();
 		}
-		if (myword(temp)) // 单词 
+		if (isWord(temp)) // 单词 
 		{
 			wordlen++;
 			if (wordlen < 3)
