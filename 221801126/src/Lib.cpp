@@ -10,3 +10,9 @@ string InputFile(const char* filename){
 		in.close();		
 		return sstring;
 }
+
+int CountChar(string inputString) {
+	int count = 0;
+	count = inputString.length();
+	return count;
+}
