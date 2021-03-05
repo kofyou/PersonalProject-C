@@ -199,20 +199,20 @@ void WordCount::writeTxt(string outstr)
 		cout<<"Cannot open file.\n";
 		return;
 	} 
-	out<<"characters:"<<ccount<<'\n';
-	out<<"words:"<<wcount<<'\n';
-	out<<"lines:"<<ecount<<'\n';
+	out<<"characters: "<<ccount<<'\n';
+	out<<"words: "<<wcount<<'\n';
+	out<<"lines: "<<ecount<<'\n';
 	if(wcount<10)
 	{
 		for(it;it!= vec.end();it++)
 		{
-        	out<<it->first << ":" << it->second <<endl;
+        	out<<it->first << ": " << it->second <<endl;
     	}
 	}
 	else
 	{
 		for(int i=0;i<10;i++){
-			out<< it->first << ":" << it->second <<endl;
+			out<< it->first << ": " << it->second <<endl;
         	it++;
 		}
 	}
