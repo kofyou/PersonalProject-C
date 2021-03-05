@@ -16,7 +16,6 @@ bool isAscil(char temp)
 	}
 }
 
-// 空白字符检测 
 bool isWhite(char temp) 
 { 
 	if (temp == ' ' || temp == '\n')
@@ -29,7 +28,6 @@ bool isWhite(char temp)
 	}
 }
 
-//单词检测 
 bool isWord(char temp) 
 { 
 	if ((temp >= 'a' && temp <= 'z') || (temp >= 'A' && temp <= 'Z') || (temp >= '0' && temp <= '9'))
@@ -42,7 +40,6 @@ bool isWord(char temp)
 	}
 }
 
-// 判断是否为数字 
 bool isDigit(char temp)
 {
 	if (temp >= '0' && temp <= '9')
