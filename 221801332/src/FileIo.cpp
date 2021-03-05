@@ -27,7 +27,7 @@ string FileIO::GetOutputFileName(int argc, char* argv[])
 }
 
 //逐个字符读取文件
-bool FileIO::ReadChar(int argc, char *argv[],string &charBuf,vector<string> &linesBuf)
+bool FileIO::ReadChar(int argc, char *argv[], string &charBuf, vector<string> &linesBuf)
 {
 	string filename = FileIO::GetInputFileName(argc, argv);
 	ifstream Readfile(filename);
@@ -67,7 +67,7 @@ bool FileIO::ReadChar(int argc, char *argv[],string &charBuf,vector<string> &lin
 }
 
 //输出文件
-void FileIO::OutputToFile(int argc, char* argv[], int CharacterCount, int WordCount,int LineCount, vector<map<string,int>::iterator> &Top10Word)
+void FileIO::OutputToFile(int argc, char* argv[], int CharacterCount, int WordCount, int LineCount, vector<map<string,int>::iterator> &Top10Word)
 {
 	string filename = FileIO::GetOutputFileName(argc, argv);
 	ofstream WriteFile(filename, ios::out);
@@ -78,11 +78,11 @@ void FileIO::OutputToFile(int argc, char* argv[], int CharacterCount, int WordCo
 	{
 		if (i == 0)
 		{
-			WriteFile  << Top10Word[i]->first <<": " << -Top10Word[i]->second;
+			WriteFile  << Top10Word[i]->first << ": " << -Top10Word[i]->second;
 		}
 		else
 		{
-			WriteFile << endl << Top10Word[i]->first <<": " << -Top10Word[i]->second;
+			WriteFile << endl << Top10Word[i]->first << ": " << -Top10Word[i]->second;
 		}
 	}
 	WriteFile.close();
