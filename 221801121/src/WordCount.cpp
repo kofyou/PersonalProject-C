@@ -1,10 +1,11 @@
 #include "Lib.h"
 
+
 int main(int argc, char* argv[])
 {
-    int i =0;
-    int j =0;
-    int num =0;
+    int i = 0;
+    int j = 0;
+    int num = 0;
     analysisFlie file1;
     file1.init();
 
@@ -19,16 +20,16 @@ int main(int argc, char* argv[])
 
     char* output = argv[2];
     ofstream file2(output, ios::out);
-   // ofstream file2;
-    /*这是输出目录的指定*/
-    //file2.open("AAA.txt");
+    // ofstream file2;
+     /*这是输出目录的指定*/
+     //file2.open("AAA.txt");
     if (!file2.is_open())
     {
         cout << "无法写出结果" << endl;
     }
-    file2 << "character:" << file1.getChars() << endl;   
-    file2 << "words:" << file1.getWords() << endl;
-    file2 << "line:" << file1.getLines() << endl;
+    file2 << "characters: " << file1.getChars() << endl;
+    file2 << "words: " << file1.getWords() << endl;
+    file2 << "lines: " << file1.getLines() << endl;
     Words* wword1 = new Words[file1.getWords()];
     Words* temp = new Words[file1.getWords()];
     map<string, int>::iterator it;
@@ -39,7 +40,7 @@ int main(int argc, char* argv[])
         wword1[num].count = it->second;
         num++;
     }
-    sort(wword1, temp, 0, num-1 );
+    sort(wword1, temp, 0, num - 1);
 
     Words* p = file1.getsW();
     for (int i = 0; i < file1.getSums(); i++) {
