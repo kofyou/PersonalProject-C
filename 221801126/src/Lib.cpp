@@ -2,16 +2,10 @@
 
 using namespace std;
 
-//InputFileMode
-string InputFile(const char* filename){
-	  ifstream in(filename, ios::in);
-		istreambuf_iterator<char> beg(in), end;
-		string sstring(beg, end);	
-		in.close();		
-		return sstring;
-}
+map<string, int> m;
+vector< pair<string, int> > vec;
+//////////////////////////////////
 
-//OutputFlieMode
 void OutputFlie(char* filename,string inputString) {
 	//
 	ofstream outputFlie(filename);
@@ -40,6 +34,14 @@ void OutputFlie(char* filename,string inputString) {
 	outputFlie.close();
 }
 
+string InputFile(const char* filename){//输入 
+	    ifstream in(filename, ios::in);
+		istreambuf_iterator<char> beg(in), end;
+		string sstring(beg, end);	
+		in.close();		
+		return sstring;
+}
+//////////////////////////////// 
 
 int CountChar(string inputString) {
 	int count = 0;
@@ -66,7 +68,6 @@ int CountWord(string inputString) {
 			}
 			
 			if (flag) {
-				//sum++;
 				while (NotNumberOrLetter(inputString[j])) {
 					j++;
 				}
@@ -130,6 +131,7 @@ int CountRow(string inputString) {
 			sum++;
 	return sum;
 }
+//////////////////////////////////////////////// 
 
 bool IsBlankChar(char c) {
 	return c == '\r' || c == ' '||c == '\n'|| c == '\t';
@@ -150,5 +152,3 @@ bool cmp(pair<string, int> a, pair<string, int> b) {
 	else 
 		return a.second > b.second;
 }
-
-
