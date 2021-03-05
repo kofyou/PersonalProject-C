@@ -1,11 +1,21 @@
 #include "WordCount.h"
-#include <cmath>
-#include <fstream>
-#include <map>
-#include <string>
 #include <iostream>
+#include <string>
+#include <fstream>
+#include <cmath>
+#include <cstdio>
+#include <ctype.h>
+#include <map> 
+#include <algorithm>
+#include <functional>
 
-void WordCount::charAndEntercount(string pathstr){
+bool cmp(const pair<string, int>& a, const pair<string, int>& b)
+{
+        return a.second > b.second;
+}
+
+void WordCount::charAndEntercount(string pathstr)
+{
 	const char*path=pathstr.data();
 	
 	int cc=0;
@@ -22,7 +32,7 @@ void WordCount::charAndEntercount(string pathstr){
 	}
 	else
 	{
-		//逐个获取字符 
+		//get char one by one
 		while(!infs.eof())
 		{
 			infs.get(temp);
@@ -49,16 +59,17 @@ void WordCount::charAndEntercount(string pathstr){
 	ecount=ec;
 }
 
-void WordCount::wCount(string pathstr){
-	int wcot=0;			 //有效单词个数 
+void WordCount::wCount(string pathstr)
+{
+	int wcot=0;			 //the count of effective words
 		
 	map<string,int> *wdmap;
-	wdmap=&wordmap;		  //将wordmap的地址赋值给wdmap，这样修改wdmap时也会修改wordmap 
+	wdmap=&wordmap;		  //give wordmap's address to wdmap,so wordmap would change while change wdmap 
 	
-	string temp;		 //获取文件每行内容 
-	bool isefct=true;    //判断是否为有效单词 
-	string word="";		 //临时存放单词 
-	int wordlength=0;	 //word长度判断 
+	string temp;		 //get everyline in the file 
+	bool isefct=true;    //check if the word is effective
+	string word="";		 //store the word for a short time
+	int wordlength=0;	 //word'd length
 	
 	ifstream infs;
 	infs.open(pathstr,ifstream::in);
@@ -74,10 +85,10 @@ void WordCount::wCount(string pathstr){
 				char ch=temp[i];
 				ch=tolower(ch);
 				
-				//遇到分隔符或到达该行末尾 
+				//when meet separation character or be the last of the line
 				if(ch==' '||!isalnum(ch)||i==l-1)    
 				{
-					//行末字符的判断 
+					//discussion for the last char
 					if(i==l-1&&isalnum(ch))		
 					{
 						if( isdigit(ch)!=0 && wordlength<4 )
@@ -91,7 +102,7 @@ void WordCount::wCount(string pathstr){
 						}
 					}
 					 
-					//若为有效单词，则存入wdmap
+					//if the word is effective,store it into wdmap
 					if( isefct && wordlength>=4 ) 
 					{
 						cout<<word<<'\n';
@@ -120,7 +131,7 @@ void WordCount::wCount(string pathstr){
 					{
 						if( isdigit(ch)!=0 && wordlength<4 )		
 						{
-							isefct=false; 	//在单词前4位中出现数字，为无效单词
+							isefct=false; 	//if digit show in the first 4 char,the word is not effective
 							wordlength=0;
 							word="";
 						}
@@ -142,6 +153,8 @@ void WordCount::wCount(string pathstr){
 		wcount=wcot;	
 }
 
-void wordMapSort(){
-	
+void wordMapSort()
+{
+	vector<pair<string, int> > vec(wordmap.begin(),wordmap.end());
+    sort(vec.begin(), vec.end(), cmp);
 } 
