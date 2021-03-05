@@ -6,16 +6,16 @@
 
 //main.cpp
 int main(int argc, char* argv[]) {
-	try {
+    try {
     //输入
-		string charString = InputFile(argv[1]);
+	string charString = InputFile(argv[1]);
     //转换
-    transform(charString.begin(), charString.end(), charString.begin(), ::tolower);
-	  //输出
-		OutputFlie(argv[2],charString);
-	}
-	catch(exception){
-		cout << "error";
-	}
+         transform(charString.begin(), charString.end(), charString.begin(), ::tolower);
+    //输出
+	OutputFlie(argv[2],charString);
+     }
+     catch(exception){
+	cout << "error";
+     }
 	return 0;
 }
