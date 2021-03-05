@@ -229,14 +229,14 @@ void Wordcount::get_mostword()
 	{
 		for (int i = 0; i < v.size(); i++)
 		{
-			result << "<" << v[i].word << ">: " << v[i].num << endl;//<<"word frequency: " << (float)v[i].num / word << endl;
+			result  << v[i].word << ": " << v[i].num << endl;//<<"word frequency: " << (float)v[i].num / word << endl;
 		}
 	}
 	else
 	{
 		for (int i = 0; i < 10; i++)
 		{
-			result << "<" << v[i].word << ">: " << v[i].num << endl;//<<"word frequency: " << (float)v[i].num / word << endl;
+			result  << v[i].word << ": " << v[i].num << endl;//<<"word frequency: " << (float)v[i].num / word << endl;
 		}
 	}
 	result.close();
