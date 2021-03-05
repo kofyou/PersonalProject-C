@@ -7,7 +7,7 @@
 using namespace std;
 string duan="";
 int wordcount = 0;
-int line = 0;
+int line = 1;
 int character = 0;
 struct Record 
 {
@@ -23,7 +23,7 @@ int wordTest(char a)
 {
     return ((a >= 'a' && a <= 'z') || (a >= 'A' && a <= 'Z'));
 }
-void readText(const char* filename) 
+void wordCount(const char* filename) 
 {
     ifstream ifile(filename);
     if (!ifile.good())
@@ -31,31 +31,61 @@ void readText(const char* filename)
         cout << "输入文件打开失败" << endl;
         return;
     }
-
-    char para[10000];
-    int i;
+    vector<char> para;
+    int i=0;
     int j = 0;
-    
-    while (!ifile.eof()) 
+    char wordd;
+    while ((wordd = ifile.get()) != EOF)
     {
-        line++;
-        ifile.getline(para, 10000);
-        i = 0;
-        while (para[i]!='\0') 
+        para.push_back(wordd);
+        i++;
+    }
+    para.push_back('\0');
+    para.push_back('\0');
+    for (int f = 0; f < para.size(); f++)
+    {
+        cout << para[f];
+    }
+    cout << endl << i << "  " << para.size();
+    
+    for (i = 0; i < para.size(); i++) 
+    {
+        if (para[i] == '\n') {
+            line++;
+        }
+    }
+    cout << endl << line;
+    i = 0;
+    while(para[i]!='\0')
+    {
+        while (wordTest(para[i]))
         {
+            i++;
+            j++;
+            if (!wordTest(para[i]))
+            {
+                if (j >= 4)
+                {
+                    wordcount++;
+                    for (int h = i - j; h < i; h++)
+                    {
+                        duan = duan + para[h];
+                    }
+                    duan += " ";
 
-            //if (para[i] == ' ') {
-              //  character++;
-            //}
-            
-            
+                }
+                j = 0;
+            }
+        }
+        
+        i++;
+    }
+        /*while (para[i]!='\0') 
+        {
             while (wordTest(para[i]))
             {
-                character++;
-                //duan = duan + para[i];
                 i++;
                 j++;
-                
                 if (!wordTest(para[i]))
                 {
                     if (j >= 4) 
@@ -74,11 +104,24 @@ void readText(const char* filename)
             
             i++;
             
-        }
-
-    }
+        }*/
     ifile.close();
     
+}
+void characterCount(const char* filename)
+{
+    ifstream ifile(filename);
+    if (!ifile.good())
+    {
+        cout << "输入文件打开失败" << endl;
+        return;
+    }
+    char chara;
+    while((chara = ifile.get()) != EOF)
+    {
+        character++;
+    }
+
 }
 void wordDis()
 {
@@ -149,7 +192,7 @@ void writeFile(const char* filename)
     }
     ofile << "字符数：" << character << endl;
     ofile << "单词数：" << wordcount << endl;
-    ofile << "行数：" << line - 1 << endl;
+    ofile << "行数：" << line  << endl;
     cout << duan << endl;
     sort(_words.begin(), _words.end(), sortType);//排序并输出
     for (int i = 0; i < _words.size(); ++i)
@@ -159,17 +202,17 @@ void writeFile(const char* filename)
     ofile.close();
 }
 int main(int argc, char** argv)
-{
-    
+{  
     if (argc != 3) {
-        cout << argv[0];
+        cout << "程序出错";
+        return 0;
     }
-    
     string in_address1 = argv[1];
     const char* in_address2 = in_address1.data();
     string out_address1 = argv[2];
     const char* out_address2 = out_address1.data();
-    readText(in_address2);
+    wordCount(in_address2);
+    characterCount(in_address2);
     writeFile(out_address2);
     wordDis();
 }
