@@ -15,15 +15,15 @@ int main(int argv, char** argc) {
     if (!outfile) {
         cout << "文件打开失败！" << endl;
     }
-    outfile << "characters:" << test->getcharacternum() << endl;
-    outfile << "words:" << test->getwordnum1() << endl;               //单词数
-    outfile << "lines:" << test->getlinenum() << endl;
+    outfile << "characters: " << test->getcharacternum() << endl;
+    outfile << "words: " << test->getwordnum1() << endl;               //单词数
+    outfile << "lines: " << test->getlinenum() << endl;
     Words* wwords = test->getwords();
     for (int i = 0; i < test->getwordnum2(); i++) {
         if (i == 10)break;
         else {
             outfile << wwords[i].word;
-            outfile << ":" << wwords[i].count << endl;
+            outfile << ": " << wwords[i].count << endl;
         }
     }
     outfile.close();
