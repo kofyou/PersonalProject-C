@@ -6,7 +6,7 @@ void writeResult(const Core::CountResult& result, const std::string &file)
 {
     std::ofstream os(file, std::ios_base::trunc);
     if (!os.is_open())
-        throw std::exception(("can not write file " + file + "\n").c_str());
+        throw std::ios::failure(("can not write file " + file + "\n").c_str());
     os << "characters: " << result.charCount << std::endl;
     os << "words: " << result.wordCount << std::endl;
     os << "lines: " << result.lineCount << std::endl;
@@ -45,7 +45,7 @@ int main(int argc, char** argv)
     }
     catch (exception e)
     {
-        cout << e.what();
+        cerr << e.what();
         exit(EXIT_FAILURE);
     }
 
