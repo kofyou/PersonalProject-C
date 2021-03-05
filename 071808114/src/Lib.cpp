@@ -221,11 +221,7 @@ void CountMaxWord(char* filein, vector<pair<string, int>>& x)//统计词数词�
 		}
 
 	}
-
-
-
 	f.close();
-
 }
 
 int WriteToFile(char* fileout, vector<pair<string, int>>& x)
@@ -236,8 +232,8 @@ int WriteToFile(char* fileout, vector<pair<string, int>>& x)
 
 		ofstream outf(fileout, ios::app);
 
-		cout << vec->first << ":" << vec->second << endl;
-		outf << vec->first << ":" << vec->second << endl;
+		cout << vec->first << ": " << vec->second << endl;
+		outf << vec->first << ": " << vec->second << endl;
 
 		veccnt++;
 		if (veccnt == 10) break;

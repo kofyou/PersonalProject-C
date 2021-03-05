@@ -33,9 +33,9 @@ int main(int argc, char* argv[])
 	int linecount = CountLine(argv[1], argv[2]);
 	int wordcount = CountWord(argv[1], argv[2]);
 
-	cout << "characters:" << charcount << endl;
-	cout << "words:" << wordcount << endl;
-	cout << "lines:" << linecount << endl;
+	cout << "characters: " << charcount << endl;
+	cout << "words: " << wordcount << endl;
+	cout << "lines: " << linecount << endl;
 
 
 	vector<pair<string, int>> v;
