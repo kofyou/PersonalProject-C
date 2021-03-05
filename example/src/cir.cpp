@@ -72,9 +72,6 @@ void Wordcount::get_all()
 	get_character();
 	get_word();
 	get_line();
-	cout << "characters: " << character << endl;
-	cout << "words: " << word << endl;
-	cout << "lines: " << line << endl;
 	result << "characters: " << character << endl;
 	result << "words: " << word << endl;
 	result << "lines: " << line << endl;
@@ -232,7 +229,6 @@ void Wordcount::get_mostword()
 	{
 		for (int i = 0; i < v.size(); i++)
 		{
-			cout << "<" << v[i].word << ">: " << v[i].num << endl;//<<"word frequency: " << (float)v[i].num / word << endl;
 			result << "<" << v[i].word << ">: " << v[i].num << endl;//<<"word frequency: " << (float)v[i].num / word << endl;
 		}
 	}
@@ -240,7 +236,6 @@ void Wordcount::get_mostword()
 	{
 		for (int i = 0; i < 10; i++)
 		{
-			cout << "<" << v[i].word << ">: " << v[i].num << endl;//<<"word frequency: " << (float)v[i].num / word << endl;
 			result << "<" << v[i].word << ">: " << v[i].num << endl;//<<"word frequency: " << (float)v[i].num / word << endl;
 		}
 	}
