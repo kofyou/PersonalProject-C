@@ -11,9 +11,9 @@ int main(int argc, char** argv)
 	char x;
 	while ((x=inFile.get())!=EOF)
 	{
-		if (x <= 'z' && x >= 'a')
+		if (x <= 'Z' && x >= 'A')
 		{
-			x = x - 32;
+			x = x + 32;
 		}
 		buffer[i] = x;
 		i++;

@@ -99,6 +99,20 @@ void Show(string str[], int n,string filename)
 				swap(a[i], a[j]);
 				swap(str[i], str[j]);
 			}
+			else if (a[i] == a[j])
+			{
+				char c1[MAXWORD];
+				char c2[MAXWORD];
+				int length1 = str[i].copy(c1, MAXWORD - 1);
+				int length2 = str[j].copy(c1, MAXWORD - 1);
+				c1[length1] = '\0';
+				c2[length2] = '\0';
+				if (strcmp(c1, c2) < 0)
+				{
+					swap(a[i], a[j]);
+					swap(str[i], str[j]);
+				}
+			}
 		}
 	}
 	if (n > 10)
