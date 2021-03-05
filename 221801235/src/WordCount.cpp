@@ -18,6 +18,8 @@ int countChar(FILE *fp,char *argv);
 //判断是否为ASCII字符
 int isascii(char ch);
 
+//统计文件的有效行数
+int countRow(FILE *fp,char *argv);
 
 int main(int argc,char *argv[]) {
 	FILE *fp,*fp1;
@@ -29,6 +31,10 @@ int main(int argc,char *argv[]) {
 	
 	//统计文件的字符数
 	countChar(fp,argv[2]);
+	rewind(fp);
+	
+	//统计文件的有效行数 
+	countRow(fp,argv[2]); 
 	
 	fclose(fp);
 	fclose(fp1);
@@ -61,3 +67,29 @@ int countChar(FILE *fp,char *argv){
 int isascii(char ch){
 	return(ch>=0 && ch<=127);
 } 
+
+//统计文件的有效行数
+//任何包含非空白字符的行，都需要统计
+int countRow(FILE *fp,char *argv){
+	int row=0;
+	char ch; 
+	int cntChar=0; 
+	while((ch=fgetc(fp))!=EOF){ 
+		if(!isspace(ch)) {
+			cntChar++;
+		}
+		if(ch=='\n' && cntChar!=0){
+			row++;
+			cntChar=0;
+		}
+	}
+	if(cntChar!=0){
+		row++;
+		cntChar=0;
+	}
+	//统计文件的有效行数
+	ofstream output(argv, ios::app);
+	output<<"有效行数为"<<row<<std::endl;
+//	printf("有效行数为%d\n",row);
+	return row;
+}
