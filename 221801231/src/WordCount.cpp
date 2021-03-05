@@ -18,7 +18,8 @@
 #include <vector>
 #include <algorithm>
 #include <direct.h>
-#include "lib.h"
+#include "./lib.h"
+#include "./lib.cpp"
 #define MAX_NUM 1024
 
 using namespace std;
@@ -36,28 +37,30 @@ int main(int argc, char *argv[])
 
 	fstream in;
 	fstream out;
-	in.open("./"+inputFileName, ios::in | ios::binary);
+	string openInputFileName="./"+inputFileName;
+	string openOutputFileName="./"+outputFileName;
+	in.open(openInputFileName.c_str(), ios::binary| ios_base::in);
 	if (!in.is_open())
 	{
 		cout << "无法打开文件:"<<argv[1] << endl;
 		exit(0);
 	}
-	out.open("./" + outputFileName, ios::out);
+	out.open(openOutputFileName.c_str(), ios::out);
 	out.close();
 	out.clear();
-	out.open("./" + outputFileName, ios::app);
+	out.open(openOutputFileName.c_str(), ios::app);
 	mf->Countchar(in,out);
 	in.close();
 	in.clear();
-	in.open("./" + inputFileName);
+	in.open(openInputFileName.c_str());
 	mf->Countword(in,out);
 	in.close();
 	in.clear();
-	in.open("./" + inputFileName);
+	in.open(openInputFileName.c_str());
 	mf->Countline(in,out);
 	in.close();
 	in.clear();
-	in.open("./" + inputFileName);
+	in.open(openInputFileName.c_str());
 	mf->Sortmap(out);
 	in.close();
 	in.clear();
