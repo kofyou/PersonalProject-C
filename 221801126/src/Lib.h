@@ -13,8 +13,13 @@
 string InputFile(const char* filename);
 
 int CountChar(string inputString);
+int CountWord(string inputString);
+int CountRow(string inputString);
 
 bool cmp(pair<string, int> a, pair<string, int> b);
 bool IsBlankChar(char c);
 bool NotNumberOrLetter(char s);
 bool IsEnglishLetter(char s);
+
+extern map<string, int> m;
+extern vector< pair<string, int> > vec;
