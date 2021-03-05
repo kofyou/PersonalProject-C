@@ -10,10 +10,10 @@ using namespace std;
 
 extern map<string, int> stringMap;
 
-int countLine();
+int countLine(string input);
 
-int countChar();
+int countChar(string input);
 
-int countWord();
+int countWord(string input);
 
-void output(ofstream out,);
+void output(ofstream& out,string input);

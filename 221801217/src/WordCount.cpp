@@ -13,12 +13,10 @@ int main(int argc, char** argv) {
 //	cout << input<<endl;
 	in.close();
 	
-	
 	ofstream out;
 	out.open(argv[2]);
-	ouput(out);
+	output(out ,input);
 	out.close();
-	
 	
 	return 0;
 }
