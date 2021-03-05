@@ -1,13 +1,13 @@
+#include"cir.h"
 #include <iostream>
-
-using namespace std; 
 
 int main(int argc, char** argv)
 {
 
-	string s = argv[1];
+	string wordcount = argv[1];
 
-	myFile file(s);
-	
+	myFile file(wordcount);
+	file.get_all();
+	cout << "ÒÑÊä³öÖÁout.txt" << endl;
 	return 0;
 }
