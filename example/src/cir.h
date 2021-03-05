@@ -28,7 +28,7 @@ class Wordcount
 		void get_line();
 		void get_character();
 		void get_word();
-		void get_mostword();
+		void get_mostword();//单词计算
 		void get_all();
 		int get_characters() 
 		{ 
