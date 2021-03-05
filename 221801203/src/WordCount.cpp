@@ -65,6 +65,14 @@ bool is_word(const char* str) {
 	return false;
 }
 
+char lowercase(char ch) {
+	
+	if(ch >= 'A' && ch <= 'Z')	// 大写字母的ascall加32等于对应的小写字母 
+		return ch+32;
+								// 如果不是大写字母，返回原本的值 
+	return ch;
+}
+
 void add_word_to_(WRec &records, const char* word) {
 	
 	for(int i = 0; i < records.n_word_count; i ++) {
@@ -123,7 +131,7 @@ void summarize(const char* in_file, const char* out_file) {
 			}
 			if(is_digit(*p) || is_alpha(*p)){	// 读到字母或数字字符，开始尝试按单词读入 
 				
-				
+				word_buf[word_len++] = lowercase(*p);
 				if( !is_digit(*(p+1)) && !is_alpha(*(p+1)) ) {	// 下一个字符不为字母或数字字符时，完成读取 
 					
 					word_buf[word_len] = '\0';
@@ -136,9 +144,9 @@ void summarize(const char* in_file, const char* out_file) {
 				}
 			}
 		}
-    printf("");
-	if(!line_empty)
-		n_line++;
+		printf("");
+		if(!line_empty)
+			n_line++;
 	}
 	input.close();
 
