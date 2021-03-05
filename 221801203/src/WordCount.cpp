@@ -15,6 +15,8 @@ typedef struct words_record{	// 结构体：单词记录
 	int n_word_count;			// 单词的数量 
 }WRec;
 
+bool is_digit(char ch);         // 判断ch是否是一个数字字符 
+bool is_alpha(char ch);			// 判断ch是否是一个字母 
 void summarize(const char* in_file, const char* out_file);	  // 对输入文件in_file进行统计，输出到out_file
 
 int main(int argc, const char* argv[]) {
@@ -40,6 +42,27 @@ bool is_alpha(char ch) {
 	return ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) ;
 }
 
+bool is_word(const char* str) {
+	
+	int alpha_count = 0;	// 开头连续字母的个数
+	
+	if(is_digit(*str))		// 如果第一个是数字字符，不是单词 
+		return false;
+
+	// 遍历字符串 
+	for(const char *p = str; *p != '\0'; p ++) {
+		
+		if(is_alpha(*p))			// 如果是字符，字母数+1 
+			alpha_count++;
+		else if(alpha_count < 4)	// 碰到第一个非字母字符时，如果不满4个，不是单词 
+			return false;
+			
+		if(alpha_count >= 4)
+			return true;
+	}
+	return false;
+}
+
 void summarize(const char* in_file, const char* out_file) {
 	
 	ifstream input;			// 输入文件 
@@ -55,7 +78,7 @@ void summarize(const char* in_file, const char* out_file) {
 	
 	int cur_line = 0; 
 	
-	input.open(in_file,ios::binary);
+	input.open(in_file);
 	if(!input.is_open() || input.bad()){
 		
 		printf("文件%s打开失败\n", in_file);
@@ -78,11 +101,24 @@ void summarize(const char* in_file, const char* out_file) {
 				
 				line_empty = false;
 			}
+			if(is_digit(*p) || is_alpha(*p)){	// 读到字母或数字字符，开始尝试按单词读入 
+				
+				if( !is_digit(*(p+1)) && !is_alpha(*(p+1)) ) {	// 下一个字符不为字母或数字字符时，完成读取 
+					
+					word_buf[word_len] = '\0';
+					word_len = 0;
+					if(is_word(word_buf)){
+						
+						n_word++;
+					}
+				}
+			}
 		}
+
 	}
-		
 	input.close();
 
+	
 	// 输出到指定输出文件 
 	output.open(out_file);
 	if(!output.is_open() || output.bad()){
