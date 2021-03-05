@@ -3,13 +3,21 @@
 
 int countLine(string input){
 	int lines=0;
-	if(input.length()!=0)
-		lines=1;
-	for(int i=0;i<input.length();i++){
-		if((input[i]==13||input[i]==10)){//用换行符个数计算行数 
+	int i=0;
+	if(input[0]==13||input[0]==10){
+		while (!(input[i]==10||input[i]==13||input[i]==32))
+			i++;
+	}
+	for(;i<input.length();i++){
+		if((input[i]==13||input[i]==10)){
 			lines++;
+			while(input[i]==10||input[i]==13||input[i]==32)
+				i++;
 		}
 	}
+	if(input.length()!=0)
+		if(!(input[input.length()-1]==10||input[input.length()-1]==13||input[input.length()-1]==32))
+			lines++;
 	return lines;
 }
 
