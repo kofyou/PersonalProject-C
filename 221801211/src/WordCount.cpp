@@ -109,8 +109,8 @@ void Show(string str[], int n,string filename)
 	{
 		if (a[i] != 0)
 		{
-			cout << str[i] << ":" << a[i] << endl;
-			outFile << str[i] << ":" << a[i] << endl;
+			cout << str[i] << ": " << a[i] << endl;
+			outFile << str[i] << ": " << a[i] << endl;
 		}
 	}
 	outFile << "------------" << "NEXT"<< "------------" <<endl;
