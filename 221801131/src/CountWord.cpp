@@ -133,9 +133,9 @@ int CountWord::lineCount(char* Path) {    //计算行
         while(infile >> code) {
             if (code >= 0 && code <= 127) {
                 if (!isspace(code))
-                    flag = true;
+                    flag = true;       //标志是否空行
             }
-            if (code == '\r' || code == '\n')
+            if (code == '\n')           //读完一行，跳出循环
                 break;
         }
         if (flag){
