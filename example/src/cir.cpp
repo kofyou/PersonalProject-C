@@ -1,6 +1,6 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 
-bool isAscil(char tenmp) 
+bool isAscil(char temp) 
 { 
 	if (temp > 122 || temp < 48)
 	{
@@ -16,7 +16,7 @@ bool isAscil(char tenmp)
 	}
 }
 
-// ¿Õ°××Ö·û¼ì²â 
+// ç©ºç™½å­—ç¬¦æ£€æµ‹ 
 bool isWhite(char temp) 
 { 
 	if (temp == ' ' || temp == '\n')
@@ -29,7 +29,7 @@ bool isWhite(char temp)
 	}
 }
 
-//µ¥´Ê¼ì²â 
+//å•è¯æ£€æµ‹ 
 bool isWord(char temp) 
 { 
 	if ((temp >= 'a' && temp <= 'z') || (temp >= 'A' && temp <= 'Z') || (temp >= '0' && temp <= '9'))
@@ -42,7 +42,7 @@ bool isWord(char temp)
 	}
 }
 
-// ÅÐ¶ÏÊÇ·ñÎªÊý×Ö 
+// åˆ¤æ–­æ˜¯å¦ä¸ºæ•°å­— 
 bool isDigit(char temp)
 {
 	if (temp >= '0' && temp <= '9')

@@ -1,4 +1,4 @@
-#include<iostream>
+ï»¿#include<iostream>
 #include<fstream>
 #include<algorithm> 
 #include<vector>
@@ -47,7 +47,7 @@ class Wordcount
 		}
 };
 
-bool isAscil(char temp);//ÅĞ¶Ï·Ö¸î·û 
-bool isWhite(char temp);//ÅĞ¶Ï¿Õ°××Ö·û 
-bool isDigit(char temp);//ÅĞ¶ÏÊÇ·ñÎªÊı×Ö
-bool isWord(char temp);//µ¥´Ê¼ì²â 
+bool isAscil(char temp);//åˆ¤æ–­åˆ†å‰²ç¬¦ 
+bool isWhite(char temp);//åˆ¤æ–­ç©ºç™½å­—ç¬¦ 
+bool isDigit(char temp);//åˆ¤æ–­æ˜¯å¦ä¸ºæ•°å­—
+bool isWord(char temp);//å•è¯æ£€æµ‹ 
