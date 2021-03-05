@@ -91,6 +91,26 @@ void add_word_to_(WRec &records, const char* word) {
 	records.n_word_count ++;
 }
 
+void sort_WRec(WRec &records) {
+	
+	WInfo temp;
+	
+	for(int i = 0; i < records.n_word_count-1; i ++) {
+		
+		for(int j = 0; j < records.n_word_count-1-i; j ++) {
+			
+			// 单词的频率更大，或评率相同、字典序高的放前 
+			if(records.words[j].n_word_repeat < records.words[j+1].n_word_repeat
+			|| records.words[j].n_word_repeat == records.words[j+1].n_word_repeat && strcmp(records.words[j].word, records.words[j+1].word) > 0) {
+				
+				temp = records.words[j];
+				records.words[j] = records.words[j+1];
+				records.words[j+1] = temp;
+			}
+		}
+	}
+}
+
 void summarize(const char* in_file, const char* out_file) {
 	
 	ifstream input;			// 输入文件 
@@ -149,6 +169,7 @@ void summarize(const char* in_file, const char* out_file) {
 			n_line++;
 	}
 	input.close();
+	sort_WRec(records);
 
 	
 	// 输出到指定输出文件 
