@@ -22,7 +22,7 @@ bool is_alpha(char ch);			// 判断ch是否是一个字母
 char lowercase(char ch);		// 将ch转换为小写 
 void add_word_to_(WRec &records, const char* word);			// 将word加到records中 
 void sort_WRec(WRec &records);								// 按照频率和字典顺序排序 
-void summarize(const char* in_file, const char* out_file);	// 对输入文件in_file进行统计，输出到out_file
+void wodrcount(const char* in_file, const char* out_file);	// 对输入文件in_file进行统计，输出到out_file
 
 
 int main(int argc, const char* argv[]) {
@@ -33,7 +33,7 @@ int main(int argc, const char* argv[]) {
 		return 1;
 	}
 	
-	summarize(argv[1], argv[2]);
+	wodrcount(argv[1], argv[2]);
 	
 	return 0;
 }
@@ -116,7 +116,7 @@ void sort_WRec(WRec &records) {
 	}
 }
 
-void summarize(const char* in_file, const char* out_file) {
+void wodrcount(const char* in_file, const char* out_file) {
 	
 	ifstream input;			// 输入文件 
 	ofstream output;		// 输出文件 
@@ -124,7 +124,9 @@ void summarize(const char* in_file, const char* out_file) {
 	int   	 n_word = 0;	// 单词数 
 	int   	 n_char = 0;	// 字符数 
 	WRec 	 records;		// 所有单词记录 
-	char 	 buf[1024];		// 缓冲区 
+	char 	 last_ch = '\0';// 上一个读取的字符 
+	char 	 ch;			// 读取的字符 
+	char 	 buf[501];		// 缓冲区 
 	char 	 word_buf[MAX_LEN_STR+1];	// 单词缓冲区 
 	int  	 word_len = 0;	// 单词长度 
 	bool 	 line_empty;	// 行是否为空 
@@ -134,46 +136,67 @@ void summarize(const char* in_file, const char* out_file) {
 	input.open(in_file,ios::binary);
 	if(!input.is_open() || input.bad()){
 		
-		printf("文件%s打开失败\n", in_file);
+		printf("文件%s打卡失败\n", in_file);
 		return;
 	}
 	
 	records.n_word_count = 0;	// 初始单词数为0 
-						
+	
+	n_line = 1;
+	line_empty = true;
 	while(!input.eof()) {		// 读取到文件尾 
 		
-		input.getline(buf, 1024);	// 读取整行 
-		if(!input.eof())
-			n_char ++;
-		line_empty = true;
-		
-		for(char* p = buf; *p != '\0'; p ++) {	// 遍历整行中的每个字符 
+		ch = input.get();
+		if(ch == EOF || ch == '\0'){
 			
-			n_char ++;
-			if(*p != ' ' && *p != '\t') {		// 有其他字符时，该行非空 
+			if(n_char == 0){
 				
-				line_empty = false;
+				n_line = 0;
 			}
-			if(is_digit(*p) || is_alpha(*p)){	// 读到字母或数字字符，开始尝试按单词读入 
+			break;
+		}
+
+		n_char ++;
+		if(ch != ' ' && ch != '\t' && ch != '\n' && ch != '\r') {		// 有其他字符时，该行非空 
+			
+			line_empty = false;
+		}
+		if(is_digit(ch) || is_alpha(ch)){	// 读到字母或数字字符，开始尝试按单词读入 
+			
+			word_buf[word_len++] = lowercase(ch);
+		}
+		else if(word_len > 0 && (is_digit(last_ch) || is_alpha(last_ch))){	// 当前字符不为字母或数字字符，且上一个字符是时 
+			
+			word_buf[word_len] = '\0';
+			word_len = 0;
+			if(is_word(word_buf)){
 				
-				word_buf[word_len++] = lowercase(*p);
-				if( !is_digit(*(p+1)) && !is_alpha(*(p+1)) ) {	// 下一个字符不为字母或数字字符时，完成读取 
-					
-					word_buf[word_len] = '\0';
-					word_len = 0;
-					if(is_word(word_buf)){
-						
-						add_word_to_(records, word_buf);
-						n_word++;
-					}
-				}
+				add_word_to_(records, word_buf);
+				n_word++;
 			}
 		}
-		printf("");
-		if(!line_empty)
-			n_line++;
+		
+		if(ch == '\n'){
+			
+			if(!line_empty)
+				n_line++;
+			line_empty = true;
+		}
+		last_ch = ch;
 	}
 	input.close();
+	if(line_empty)
+		n_line--;
+	if(word_len > 0 && (is_digit(last_ch) || is_alpha(last_ch))){	// 当前字符不为字母或数字字符，且上一个字符是时 
+			
+		word_buf[word_len] = '\0';
+		word_len = 0;
+		if(is_word(word_buf)){
+			
+			add_word_to_(records, word_buf);
+			n_word++;
+		}
+	}
 	sort_WRec(records);
 	
 	// 输出到指定输出文件 
