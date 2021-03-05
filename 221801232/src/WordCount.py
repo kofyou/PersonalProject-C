@@ -1,5 +1,9 @@
+# coding:utf-8
 import os, re, argparse
 import unittest
+import time
+import codecs
+
 
 
 def count_chars(str):
@@ -40,21 +44,18 @@ def sort_words(content):
                     word_dic[word] = word_dic.get(word, 0)+1
     word_dic = sorted(word_dic.items(), key=lambda x: (-x[1], x[0]))
     return word_dic
-    class mytest(unittest.TestCase):
-        def test(self):
-            self.assertEqual(main(input.txt, output.txt), 4)
 
 
 def main(inputfile, outputfile):
-    with open(inputfile, 'r', newline="\n") as f:
+    with open(inputfile, 'r', newline="\n", encoding='utf-8') as f:
         text = f.readlines()
     chars_num = count_chars(text)
     lines_num = count_lines(text)
     words_num = count_words(text)
     count_num = sort_words(text)
-    with open(outputfile, 'w', newline="\n") as wf:
+    with open(outputfile, 'w', newline="\n", encoding='utf-8') as wf:
         wf.write('characters:'+str(chars_num)+'\nwords:'+str(words_num)+'\nlines:'+str(lines_num)+'\n')
-        if len(count_num)>=10:
+        if len(count_num) >= 10:
             for i in range(10):
                 wf.write(count_num[i][0]+':'+str(count_num[i][1])+'\n')
         else:
@@ -63,10 +64,12 @@ def main(inputfile, outputfile):
 
 
 if __name__ == '__main__':
+    start = time.perf_counter()
     parser = argparse.ArgumentParser()
     parser.add_argument('input', type=str, default='input.txt', help='input_file_path')
     parser.add_argument('output', type=str, default='output.txt', help='output_file_path')
     args = parser.parse_args()
     main(args.input, args.output)
-
+    end = time.perf_counter()
+    print('Running time: %s Seconds' % (end-start))
 
