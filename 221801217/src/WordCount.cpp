@@ -1,7 +1,7 @@
 #include "Lib.h"
 
 
-map<string, int> stringMap;//ͳ�ƴ�Ƶ
+map<string, int> stringMap;//统计词频
 
 
 

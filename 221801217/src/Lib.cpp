@@ -46,10 +46,10 @@ int countWord(string input){
 	if(input.length()==0)
 		return words;
 		for(int i=0,j=0;i<input.length()&&j<input.length();){
-			if(isChar(input[i])){//×ÖÄ¸¿ÉÄÜÊÇµ¥´ÊµÄ¿ªÍ· 
+			if(isChar(input[i])){//å­—æ¯å¯èƒ½æ˜¯å•è¯çš„å¼€å¤´ 
 				j=i;
-				bool temp=1;//Ö¸Ê¾ÊÇ·ñÊÇÒ»¸öµ¥´Ê 
-				for(;j<i+4;j++){//ÅĞ¶ÏÇ°ËÄ¸ö×Ö·ûÊÇ·ñÊÇ×ÖÄ¸ 
+				bool temp=1;//æŒ‡ç¤ºæ˜¯å¦æ˜¯ä¸€ä¸ªå•è¯ 
+				for(;j<i+4;j++){//åˆ¤æ–­å‰å››ä¸ªå­—ç¬¦æ˜¯å¦æ˜¯å­—æ¯ 
 					if(!isChar(input[j])){
 						temp=0;
 						break;
@@ -71,12 +71,12 @@ int countWord(string input){
 				}
 			}
 			else{
-				if(!isCharOrDig(input[i])){//µ±Ç°ÊÇ¿Õ°××Ö·û 
+				if(!isCharOrDig(input[i])){//å½“å‰æ˜¯ç©ºç™½å­—ç¬¦ 
 					while(!isCharOrDig(input[i])&&i<input.length()){
 						i++;
 					}
 				}
-				else{//µ±Ç°ÊÇÊı×Ö 
+				else{//å½“å‰æ˜¯æ•°å­— 
 					while(isCharOrDig(input[i]))
 						i++;
 				}
@@ -96,10 +96,13 @@ int countWord(string input){
 
 void output(ofstream& out,string input){
 //	out<<"aaaa";
-	cout<<"Lines:"<<countLine(input)<<endl;
-	cout<<"Characters:"<<countChar(input)<<endl;
-	cout<<"Words:"<<countWord(input)<<endl;
-	multimap<int,string,greater<int> > sortMap;//ÀûÓÃmap×Ô¶¯ÅÅĞòµÄÌØĞÔ¸ù¾İ´ÊÆµÅÅĞò 
+//	cout<<"characters: "<<countChar(input)<<endl;
+//	cout<<"words: "<<countWord(input)<<endl;
+//	cout<<"lines: "<<countLine(input)<<endl;
+	out<<"characters: "<<countChar(input)<<endl;
+	out<<"words: "<<countWord(input)<<endl;
+	out<<"lines: "<<countLine(input)<<endl;
+	multimap<int,string,greater<int> > sortMap;//åˆ©ç”¨mapè‡ªåŠ¨æ’åºçš„ç‰¹æ€§æ ¹æ®è¯é¢‘æ’åº 
 	for(map<string,int>::iterator it=stringMap.begin();it!=stringMap.end();it++){
 		sortMap.insert(pair<int,string>(it->second,it->first));
 //		cout<<it->first<<endl;
@@ -107,7 +110,8 @@ void output(ofstream& out,string input){
 	int cnt=0;
 	for (map<int,string>::iterator it=sortMap.begin();it!=sortMap.end()&&cnt<10;it++)
 	{
-		cout<<cnt+1<<':'<<it->second<<" times:"<<it->first<<endl;
+//		cout<<it->second<<": "<<it->first<<endl;
+		out<<it->second<<": "<<it->first<<endl;
 		cnt++;
 	}
 }
