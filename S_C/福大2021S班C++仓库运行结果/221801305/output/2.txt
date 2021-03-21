@@ -1,0 +1,13 @@
+characters: 666853
+words: 46318
+lines: 5688
+1.ajup: 2
+2.bqoj: 2
+3.dmvq: 2
+4.eofb: 2
+5.knza: 2
+6.lnws: 2
+7.loqp: 2
+8.mffp: 2
+9.munx: 2
+10.ojuu: 2

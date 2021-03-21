@@ -1,0 +1,13 @@
+characters: 704242
+words: 49205
+lines: 6138
+1.achd: 2
+2.akwo: 2
+3.bhbx: 2
+4.bnnz: 2
+5.dlfj: 2
+6.facb: 2
+7.fhzx: 2
+8.ieum: 2
+9.jbnd: 2
+10.ljug: 2

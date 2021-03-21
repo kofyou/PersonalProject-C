@@ -1,0 +1,13 @@
+characters: 514250
+words: 35635
+lines: 4373
+1.elwg: 2
+2.engz: 2
+3.fqhy: 2
+4.gepio: 2
+5.oqlx: 2
+6.owyp: 2
+7.pgex: 2
+8.ugch: 2
+9.uidc: 2
+10.vzvb: 2

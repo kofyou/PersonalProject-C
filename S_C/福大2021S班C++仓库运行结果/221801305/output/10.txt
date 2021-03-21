@@ -1,0 +1,13 @@
+characters: 898737
+words: 62536
+lines: 7667
+1.arkm: 2
+2.arst: 2
+3.bwyh: 2
+4.cadw: 2
+5.czeb: 2
+6.foah: 2
+7.fzgu: 2
+8.ghnn: 2
+9.grxg: 2
+10.gzva: 2
